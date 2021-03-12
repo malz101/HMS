@@ -43,30 +43,6 @@ class Resident extends User{
 
         $resident=$this->db->single()
 
-        // if($resident === []){
-        //     echo "<script> alert('User not found');</script>";
-        //     return FALSE;
-        // } else {
-        //     foreach($resident as $r){
-        //         $this->resident = new Resident($r['IDnum'], $r['cluster_name'], $r['household'], $r['room_num']);
-        //     }
-        // }
-        #echo '<p>This is the rest of the test</p>';
-        #$this->resident = $statement->fetch();
-        #echo $this->resident->getClusterName();
         return $resident;
     } #Completed function, returns a resident object when the resident is found in the database given the resident's id number or FALSE if the resident is not found
-
-
-    // public function getClusterName(){
-    //     return $this->cluster_name;
-    // }
-
-    // public function getRoomNum(){
-    //     return $this->room_num;
-    // }
-
-    // public function getHousehold(){
-    //     return $this->household;
-    // }
 } #completed class

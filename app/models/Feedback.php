@@ -1,11 +1,10 @@
 <?php
 
 class FeedbackController {
-    private $db;
-
     public function __construct(){
-        $this->db =  new Database;
+        parent::__construct();
     }
+
 
     public function addFeedback($data){
         $this->db->query('INSERT INTO feedback (issueID) VALUES (:issueID);');

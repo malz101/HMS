@@ -142,7 +142,7 @@ CREATE TABLE `issues` (
 
 LOCK TABLES `issues` WRITE;
 /*!40000 ALTER TABLE `issues` DISABLE KEYS */;
-INSERT INTO `issues` VALUES (1,'11 24 2019',NULL,'ROOM FIXTURES','RESOLVED','The visitors bathroom has no plunger','The Hall',NULL,NULL),(2,'11 24 2019',NULL,'INFRASTRUCTURE','PENDING','The water fountain is not pushing water at reasonable pressure','The Hall',NULL,NULL),(3,'11 24 2019','620117676','PLUMBING','PENDING','The pipe in the kitch keeps running even though it is turned off','Los Matadores','10B1','B'),(4,'11 27 2019','620117676','ELECTRICAL','PENDING','The light bulb in the bathroom is not working','Los Matadores','10B1','B'),(5,'11 27 2019','620117679','APPLIANCE','PENDING','The microwave stopped working','La Maison','20A4','A'),(6,'11 27 2019','620125555','FURNITURE','FIXING','The closet door fell off','Shamrock','50D4','D'),(7,'11 27 2019','620117676','APPLIANCE','RESOLVED','The refrigerator is leaking','Los Matadores','10B1','B');
+INSERT INTO `issues` VALUES (1,'11 24 2019',NULL,'ROOM FIXTURES','RESOLVED','The visitors bathroom has no plunger'),(2,'11 24 2019',NULL,'INFRASTRUCTURE','PENDING','The water fountain is not pushing water at reasonable pressure'),(3,'11 24 2019','620117676','PLUMBING','PENDING','The pipe in the kitch keeps running even though it is turned off'),(4,'11 27 2019','620117676','ELECTRICAL','PENDING','The light bulb in the bathroom is not working'),(5,'11 27 2019','620117679','APPLIANCE','PENDING','The microwave stopped working'),(6,'11 27 2019','620125555','FURNITURE','FIXING','The closet door fell off'),(7,'11 27 2019','620117676','APPLIANCE','RESOLVED','The refrigerator is leaking');
 /*!40000 ALTER TABLE `issues` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -154,10 +154,10 @@ DROP TABLE IF EXISTS `login`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `login` (
-  `username` varchar(10) NOT NULL,
-  `password` varchar(8) NOT NULL DEFAULT 'password',
-  `type` enum('admin','mtnpersonnel','resident')
-  PRIMARY KEY (`username`)
+  `id` varchar(10) NOT NULL,
+  `password` varchar(64) NOT NULL DEFAULT 'password',
+  `type` enum('admin','mtnpersonnel','resident'),
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -168,8 +168,8 @@ CREATE TABLE `login` (
 LOCK TABLES `login` WRITE;
 /*!40000 ALTER TABLE `login` DISABLE KEYS */;
 INSERT INTO `login` VALUES ('620117676',SHA2('password',256),'resident');
-INSERT INTO 'login' VALUES ('620117679',SHA2('helpme',256),'resident');
-INSERT INTO 'login' VALUES ('500004432',SHA2('admin',256),'admin');
+INSERT INTO `login` VALUES ('620117679',SHA2('helpme',256),'resident');
+INSERT INTO `login` VALUES ('500004432',SHA2('admin',256),'admin');
 
 /*!40000 ALTER TABLE `login` ENABLE KEYS */;
 UNLOCK TABLES;

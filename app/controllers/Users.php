@@ -1,8 +1,8 @@
 <?php
 class Users extends Controller {
-    private $userModel;
+    protected $model;
     public function __construct() {
-        $this->userModel = $this->model('User');
+        $this->model = $this->model('User');
     }
 
     public function login() {
@@ -37,14 +37,25 @@ class Users extends Controller {
 
             //Check if all errors are empty
             if (empty($data['idError']) && empty($data['passwordError'])) {
-                $loggedInUser = $this->userModel->login($data['id'], $data['password']);
-
+                $loggedInUser = $this->model->login($data['id'], $data['password']);
+                // var_dump($loggedInUser);
                 if ($loggedInUser) {
                     $this->createUserSession($loggedInUser);
+                    if(($loggedInUser->type)=='admin'){
+                        $this->view('users/admin/admin.php');
+                    }elseif (($loggedInUser->type)=='resident') {
+                        $this->view('users/resident/confirmation.php');
+                    }
                 } else {
                     $data['passwordError'] = 'Password or id is incorrect. Please try again.';
 
-                    $this->view('users/index', $data);
+                    echo json_encode(
+                        array(
+                            'sess' => session_id(),//should be removed
+                            'loggedIn'=> -1,//user not found
+                            'message' => "User Not Found"
+                        )
+                    ); 
                 }
             }
 
@@ -61,6 +72,7 @@ class Users extends Controller {
 
     public function createUserSession($user) {
         $_SESSION['id'] = $user->id;
+        $_SESSION['type'] = $user->type;
         header('location:' . URLROOT . '/pages/index');
     }
 
@@ -70,4 +82,5 @@ class Users extends Controller {
         unset($_SESSION['email']);
         header('location:' . URLROOT . '/users/login');
     }
+
 }

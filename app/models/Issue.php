@@ -1,9 +1,7 @@
 <?php
-class Issue {
-    private $db;
-
-    public function __construct() {
-        $this->db = new Database;
+class Issue extends Model{
+    public function __construct(){
+        parent::__construct();
     }
 
     public function addIssue($data){
@@ -30,11 +28,6 @@ class Issue {
         $this->db->bind(':HMemberIDnum', $HMemberIDnum);
         
         $issues = $this->db->resultSet();
-
-
-        // foreach($residents as $resident){
-        //     echo $issues['date'] . " " . $issues['classification'] . " " . $issues['status'] . " " . $issues['description'] . " " . $issues[cluster_name] . " " . $issues['room_num'] . " " . $issues['household'];
-        // }
         return $issues;
     } #returns an associative list of issues reported by a hall member using the hall member's ID number 
 
@@ -72,18 +65,5 @@ class Issue {
         $issues = $this->db->resultSet();
         
         return issues;
-        // foreach($issues as $issue){
-        //     echo "<div class=\"hero-card\">";
-        //     echo "<h3>Issue ID: ". $issue['issueID'] ."</h3>";
-        //     echo "<h6>Date: ". $issue['date'] ."</h6>";
-        //     echo "<h6>Hall Memeber ID number: ". $issue['HMemberIDnum'] ."</h6>";
-        //     echo "<h6>Classification: ". $issue['classification'] ."</h6>";
-        //     echo "<h6>Status: ". $issue['status'] ."</h6>";
-        //     echo "<h6>Description: ". $issue['description'] ."</h6>";
-        //     echo "<h6>Cluster name: ". $issue['cluster_name'] ."</h6>";
-        //     echo "<h6>Room number: ". $issue['room_num'] ."</h6>";
-        //     echo "<h6>Household: ". $issue['household'] ."</h6>";
-        //     echo "</div>";
-        // }
     }
 } #class complete

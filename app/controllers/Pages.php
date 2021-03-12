@@ -5,10 +5,14 @@ class Pages extends Controller {
     }
 
     public function index() {
-        $data = [
-            'title' => 'Home page'
-        ];
-
+        $data = [];
         $this->view('index', $data);
+    }
+
+    public function loginPage(){
+        $data = array(
+            'title' => 'Home page'
+        );
+        $this->view('users/login', $data);        
     }
 }

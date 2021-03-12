@@ -1,12 +1,11 @@
-const URLROOT;
+const URLROOT='http://localhost/COMP2171/HMS';
 $(document).ready(function () {
-    URLROOT='http://localhost/COMP2171/HMS'
-
+    index();
     $('.submit-button').click
     (function (event) {
         event.preventDefault();
         let id_ = $('#name').val();
-        let password = $('#email').val();
+        let password_ = $('#email').val();
         //console.log('hello');
         $.ajax(URLROOT+"/users/login", {
             type: "POST",
@@ -37,42 +36,28 @@ $(document).ready(function () {
 
 
     $('#continue-button').click(function () {
-        
-        window.location.replace("old-home.php");
+        request('/resident/confirmation');
     });
 
     $('.sign-out').click(function () {
-        window.location.replace("index.php");
+        request('/users/logout');
     });
 
     $('#log-issue').click(function () {
-        window.location.replace("log-issue.php");
+        request('/resident/logIssue');
     });
 
     $('#track-issue').click(function () {
-        window.location.replace("track-issue.php");
+        request('/resident/trackIssue');
     });
 
     $('#track-issue-1').click(function (event) {
         event.preventDefault();
         let idnum = $('#track-idNum').val();
-        //console.log(idnum);
-        $.ajax("backend/show-issues.php", {
-            type: "POST",
-            data: {
-                IDnum: idnum
-            }
-        }).done(function (response) {
-            //alert(response);
-            $('#show-issues-1').html(response);
-        }).fail(function () {
-            alert('Something went wrong with the server');
-        });
+        let data_ = {IDnum: idnum};
+        request('/issues/show-issues',data_);
     });
 
-    /*$('.w-nav-menu').click(function(){
-        $('.w-nav-menu').show();
-    });*/
 
     $('#submit-issue').click(function (event) {
         event.preventDefault();
@@ -80,90 +65,42 @@ $(document).ready(function () {
         let cat = $('#classification').val();
         let desc = $('#Issue-description').val();
         let idN = $('#IDapp').val();
-        /*console.log(clust);
-        console.log(cat);*/
-        //console.log(desc);
-        //console.log(idN);
-        $.ajax("backend/res-sub-issue.php", {
-            type: "POST",
-            data: {
-                residentID: idN,
-                cluster: clust,
-                classification: cat,
-                description: desc
-            }
-        }).done(function (response) {
-            console.log(response);
-            if (response === "FAILED") {
-                $('.w-form-fail').show();
-            } else {
-                $('.w-form-done').show();
-                //window.location.replace("../old-home.php");
-                window.location.replace("old-home.php");
-            }
-        }).fail(function () {
-            alert('Something went wrong with a request to the server');
-            $('.w-form-fail').show();
-        });
+
+        let data_ = {
+            residentID: idN,
+            cluster: clust,
+            classification: cat,
+            description: desc
+        }
+
+        request('/issues/resSubIssue', data_);
     });
 
 
-
-    /*$('#add-feedback-track-0').click(function (event) {
-        event.preventDefault();
-        console.log('testing feedback');
-    });
-    var tracks = document.getElementsByClassName("add-feedback-track");
-    for (var i = 0; i < tracks.length; i++) {
-        tracks.item[i].click(function (event) {
-            event.preventDefault();
-            console.log('here');
-
-        })
-    }*/
 
     $('#give-feedback').click(function(event) {
         event.preventDefault(); 
         let Iid = $('#isseue-id').val();
         let Id = $('#ID-number').val();
         let desc = $('#Issue-description').val();
-        $.ajax("give-feedback.php", {
-            type: "POST",
-            data: {
-                issueID: Iid,
-                ID: Id,
-                description: desc
-            }
-        }).done(function (response) {
-            console.log(response);
-            if (response === "FAILED") {
-                $('.w-form-fail').show();
-            } else {
-                $('.w-form-done').show();
-                alert('Feedback added!')
-                window.location.replace("old-home.php");
-            }
-        }).fail(function () {
-            alert('Something went wrong with a request to the server');
-            $('.w-form-fail').show();
-        });
+        let data_ = {
+            issueID: Iid,
+            ID: Id,
+            description: desc
+        }
+
+        request('/feedback/giveFeedback', data_);
     });
+
 
     $('#load-feedback').click(function(){
         let issueNum = $('#feedb-load').val();
-        $.ajax("old-home.php",{
-            type: "POST",
-            data: {
+        let data_ = {
                 issueID: issueNum
-            }
-        }).done(function(response){
-            //console.log(response);
-            //alert("Feedback Loaded!");
-            $('body').html(response);
-        }).fail(function(){
-            alert('Something went wrong with a request to the server');
-        });
+        }
+        request('/resident/oldHome', data_);
     });
+
 
     $('#submit-update-issue').click(function(event){
         event.preventDefault();
@@ -171,19 +108,12 @@ $(document).ready(function () {
         let stat = $('#current-status').val();
         console.log(issueNum);
         console.log(stat);
-        $.ajax("update-issue.php", {
-            type: "POST",
-            data: {
+        let data_ = {
                 issueID: issueNum,
                 status: stat
-            }
-        }).done(function(){
-            $('.w-form-done').show();
-            alert('Feedback added!')
-        }).fail(function(){
-            alert('Something went wrong with the server');
-            $('.w-form-fail').show();
-        });
+        }
+
+        request('/issues/updateIssue', data_);
     });
 
 
@@ -191,3 +121,47 @@ $(document).ready(function () {
 
     });
 });
+
+
+function index() {
+    $.ajax(URLROOT+"/pages/loginPage", {
+        type: "POST",
+        error: function(xhr, status, error) {
+            alert(xhr.responseText);
+            }
+    }).done(function (response) {
+        console.log(response)
+        // let resObj = JSON.parse(response);
+        const main = document.querySelector("main");
+
+        // main.innerHTML=resObj.message;
+
+    }).fail(function () {
+        alert('Something went wrong with a request to the server');
+    });
+}
+
+function request(url, data_={}){
+    $.ajax(URLROOT+url, {
+        type: "POST",
+        data: data_
+    }).done(function (response) {
+        let resObj = JSON.parse(response);
+        const main = document.querySelector("main");
+        console.log(resObj.loggedIn);
+        if (resObj.loggedIn === -1) {
+            $('#alertbox').html(resObj.message);
+            $('.w-form-fail').show();
+        } if (resObj.loggedIn === 1) {
+            $('#alertbox').html("Login Successful");
+            console.log();
+            main.innerHTML=resObj.message;
+            
+        } if (resObj.loggedIn === 0) {
+            $('#alertbox').html(resObj.message);
+            $('.w-form-fail').show();
+        }
+    }).fail(function () {
+        alert('Something went wrong with a request to the server');
+    });
+}

@@ -46,7 +46,8 @@
     }
 
     public function getUrl(){
-      if(isset($_GET['url'])){
+      if($_SERVER['REQUEST_METHOD']=='POST'){
+        // var_dump($_SERVER);
         $url = rtrim($_GET['url'], '/');
         $url = filter_var($url, FILTER_SANITIZE_URL);
         $url = explode('/', $url);

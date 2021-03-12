@@ -1,8 +1,7 @@
 <?php
-class User {
-    private $db;
-    public function __construct() {
-        $this->db = new Database;
+class User extends Model{
+    public function __construct(){
+        parent::__construct();
     }
 
     public function login($id, $password) {

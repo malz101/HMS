@@ -8,12 +8,26 @@
             return new $model();
         }
 
+
         //Load the view (checks for the file)
-        public function view($view, $data = []) {
+        public function view($view, $data) {
             if (file_exists('../app/views/' . $view . '.php')) {
-                require_once '../app/views/' . $view . '.php';
+                if($view=='index'){
+                    require_once '../app/views/' . $view . '.php';
+                }else{
+                    // echo('YES');
+                    $data['message']=file_get_contents('../app/views/' . $view . '.php');
+                    // var_dump ($data['message']);
+                    echo json_encode($data); 
+                }
+
             } else {
                 die("View does not exists.");
             }
+        }
+
+
+        public function message($data){
+            echo json_encode($data);
         }
     }
