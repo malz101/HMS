@@ -5,7 +5,7 @@
    * URL FORMAT - /controller/method/params
    */
   class Core {
-    protected $currentController = 'Pages';
+    protected $currentController = 'PageController';
     protected $currentMethod = 'index';
     protected $params = [];
 
@@ -15,16 +15,21 @@
       $url = $this->getUrl();
 
       // Look in BLL for first value
-      if(file_exists('../app/controllers/' . ucwords($url[0]). '.php')){
+      if(file_exists('../app/controllers/' . ucwords($url[0]) . 'Controller.php')){
         // If exists, set as controller
-        $this->currentController = ucwords($url[0]);
+        $this->currentController = ucwords($url[0]).'Controller';
         // Unset 0 Index
         unset($url[0]);
       }
+      
+      // if( $this->currentController != 'PageController'){
+      //   var_dump($this->currentController);
+      // }
+      
 
       // Require the controller
       require_once '../app/controllers/'. $this->currentController . '.php';
-
+      
       // Instantiate controller class
       $this->currentController = new $this->currentController;
 
@@ -40,14 +45,13 @@
 
       // Get params
       $this->params = $url ? array_values($url) : [];
-
+      
       // Call a callback with array of params
       call_user_func_array([$this->currentController, $this->currentMethod], $this->params);
     }
 
     public function getUrl(){
-      if($_SERVER['REQUEST_METHOD']=='POST'){
-        // var_dump($_SERVER);
+      if(isset($_GET['url'])){
         $url = rtrim($_GET['url'], '/');
         $url = filter_var($url, FILTER_SANITIZE_URL);
         $url = explode('/', $url);

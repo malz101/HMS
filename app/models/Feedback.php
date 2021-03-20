@@ -1,43 +1,17 @@
 <?php
 
-class FeedbackController {
+class Feedback extends Model {
     public function __construct(){
         parent::__construct();
     }
 
-
     public function addFeedback($data){
-        $this->db->query('INSERT INTO feedback (issueID) VALUES (:issueID);');
-        $this->db->bind(':issueID', $data['issueID']);
-
-        if ($this->db->execute()) {
-            return true;
-        }else{
-            return false;
-        }
-
-        $this->db->query('SELECT * FROM feedback ORDER BY feedbackID DESC LIMIT 1;');
-        $feedback = $this->db->single();
-
-        $this->db->query('INSERT INTO feedback_comments (issueID, feedbackID, comment, sender) 
-                            VALUES (:issueID, :feedback_id, :comment, :feedback_sender);');
-
-        $this->db->bind(':issueID', $data['issueID']);
-        $this->db->bind(':feedback_id', $feedback['feedback_id']);
+        $this->db->query('INSERT INTO feedback (issueID, comment, sender, date) 
+                            VALUES (:issueID, :comment, :sender, :date);');
+        $this->db->bind(':issueID', $data['iid']);
         $this->db->bind(':comment', $data['comment']);
-        $statement->bind(':feedback_sender', $data['HMemberIDnum']);
-
-        if ($this->db->execute()) {
-            return true;
-        }else{
-            return false;
-        }
-
-        $this->db->query('INSERT INTO feedback_date (issueID, feedbackID, date) 
-                            VALUES (:issueID, :feedback_id, :date);');
+        $this->db->bind(':sender', $data['uid']);
         $date = date("m d Y"); #in format "m d Y", ie: "11 24 2019"
-        $this->db->bind(':issueID', $data['issueID']);
-        $this->db->bind(':feedback_id', $feedback['feedback_id']);
         $this->db->bind(':date', $date);
 
         if ($this->db->execute()) {
@@ -55,23 +29,7 @@ class FeedbackController {
         
         $feedbacks = $this->db->resultSet;
 
-        // foreach($feedbacks as $f){
-        //     $feedbackObj = new Feedback($f['comment'], $issueID);
-        //     $feedbackObj->setDate($f['date']);
-        //     $feedbackObj->setFeedbackID($f['feedbackID']);
-        //     $feedbackObj->setSender($f['sender']);
-        //     $feedbackObj->setRead($f['isRead']);
-            
-        //     $this->feedback[] = $feedbackObj;
-        // }
         return $feedbacks;
     }
 
-//     public function sendFeedback(){
-//         return $this->feedback;
-//     }
-
-//     public function clearFeedback(){
-//         $this->feedback = [];
-//     }
-// }
+}

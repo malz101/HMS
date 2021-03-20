@@ -54,13 +54,13 @@
         //Return an array
         public function resultSet() {
             $this->execute();
-            return $this->statement->fetchAll(PDO::FETCH_OBJ);
+            return $this->statement->fetchAll(PDO::FETCH_ASSOC);
         }
 
         //Return a specific row as an object
         public function single() {
             $this->execute();
-            return $this->statement->fetch(PDO::FETCH_OBJ);
+            return $this->statement->fetch(PDO::FETCH_ASSOC);
         }
 
         //Get's the row count

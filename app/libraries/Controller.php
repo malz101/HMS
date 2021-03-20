@@ -1,33 +1,25 @@
 <?php
-    //Load the model and the view
-    class Controller {
-        public function model($model) {
-            //Require model file
-            require_once '../app/models/' . $model . '.php';
-            //Instantiate model
-            return new $model();
-        }
+//Load the model and the view
+class Controller {
+    public function model($model) {
+        //Require model file
+        require_once '../app/models/' . $model . '.php';
+        //Instantiate model
+        return new $model();
+    }
 
 
-        //Load the view (checks for the file)
-        public function view($view, $data) {
-            if (file_exists('../app/views/' . $view . '.php')) {
-                if($view=='index'){
-                    require_once '../app/views/' . $view . '.php';
-                }else{
-                    // echo('YES');
-                    $data['message']=file_get_contents('../app/views/' . $view . '.php');
-                    // var_dump ($data['message']);
-                    echo json_encode($data); 
-                }
-
-            } else {
-                die("View does not exists.");
-            }
-        }
-
-
-        public function message($data){
-            echo json_encode($data);
+    //Load the view (checks for the file)
+    public function view($view, $data = []) {
+        if (file_exists('../app/views/' . $view . '.php')) {
+            require_once '../app/views/' . $view . '.php';
+        } else {
+            die("View does not exists.");
         }
     }
+
+
+    // public function message($data){
+    //     echo json_encode($data);
+    // }
+}

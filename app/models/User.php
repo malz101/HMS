@@ -4,21 +4,16 @@ class User extends Model{
         parent::__construct();
     }
 
-    public function login($id, $password) {
-        $this->db->query('SELECT * FROM login WHERE id_num = :id');
+    public function getUserAuth($id) {
+        $this->db->query('SELECT * FROM login WHERE id = :id');
 
         //Bind value
         $this->db->bind(':id', $id);
 
         $row = $this->db->single();
 
-        $hashedPassword = $row->password;
+        return $row;
 
-        if (hash('sha256',$password)==$hashedPassword) {
-            return $row;
-        } else {
-            return false;
-        }
     }
 
     //Find user by email. Email is passed in by the Controller.

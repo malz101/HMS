@@ -132,7 +132,12 @@ a {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3,auto);
+  grid-row: auto;
+  
+  /* flex-direction: row; */
+  /* flex-wrap: wrap; */
 }
 
 .function-card {
@@ -152,7 +157,7 @@ a {
   -ms-flex-align: end;
   align-items: flex-end;
   border-radius: 10px;
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#a46db4), to(#443266));
+  /* background-image: -webkit-gradient(linear, left top, left bottom, from(#a46db4), to(#443266)); */
   background-image: linear-gradient(180deg, #a46db4, #443266);
   -webkit-transform: translate(0px, 0px);
   -ms-transform: translate(0px, 0px);
@@ -269,14 +274,16 @@ a {
   text-align: center;
 }
 .log-in-form {
+  display: flex;
+  flex-direction: column;
   position: absolute;
   left: 272px;
   top: 23%;
   right: 30%;
   bottom: 25%;
-  min-height: 300px;
-  min-width: 300px;
-  padding: 40px 20px;
+  min-height: 350px;
+  min-width: 350px;
+  padding: 25px 20px;
   border-radius: 10px;
   background-color: #fff;
   box-shadow: 0 1px 3px -1px #000;
@@ -285,6 +292,7 @@ a {
 
 
 .submit-button {
+  margin-top: auto;
   display: inline-block;
   padding-right: 200px;
   padding-left: 200px;
@@ -292,6 +300,11 @@ a {
 
 .form {
   margin-top: 25px;
+}
+
+.form-group{
+  margin: 0.8rem;
+  margin-top: 1.5rem;
 }
 
 @media (max-width: 991px) {

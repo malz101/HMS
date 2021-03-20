@@ -9,10 +9,10 @@ class Issue extends Model{
                             VALUES (:HMemberIDnum, :classification, :date, :description);');
 
 
-        $this->db->bind(':HMemberIDnum', $data['HMemberIDnum']);
+        $this->db->bind(':HMemberIDnum', $data['rid']);
         $this->db->bind(':classification', $data['classification']);
         $date = date("m d Y"); #in format "m d Y", ie: "11 24 2019"
-        $this->db->bind(':date', $data['date']);
+        $this->db->bind(':date', $date);
         $this->db->bind(':description', $data['description']);
 
         if ($this->db->execute()) {
@@ -31,11 +31,11 @@ class Issue extends Model{
         return $issues;
     } #returns an associative list of issues reported by a hall member using the hall member's ID number 
 
-    public function updateIssue($issueID, $status){
+    public function updateIssue($data){
         $this->db->query('UPDATE issues SET status = :status WHERE issueID = :issueID;');
 
-        $this->db->bind(':status', $status);
-        $this->db->bind(':issueID', $issueID);
+        $this->db->bind(':status', $data['status']);
+        $this->db->bind(':issueID', $data['iid']);
 
         if ($this->db->execute()) {
             return true;
@@ -64,6 +64,6 @@ class Issue extends Model{
 
         $issues = $this->db->resultSet();
         
-        return issues;
+        return $issues;
     }
 } #class complete
