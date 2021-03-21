@@ -11,7 +11,7 @@ class Feedback extends Model {
         $this->db->bind(':issueID', $data['iid']);
         $this->db->bind(':comment', $data['comment']);
         $this->db->bind(':sender', $data['uid']);
-        $date = date("m d Y"); #in format "m d Y", ie: "11 24 2019"
+        $date = date("Y-m-d"); #in format "Y-m-d ", ie: "2019-11-24 "
         $this->db->bind(':date', $date);
 
         if ($this->db->execute()) {

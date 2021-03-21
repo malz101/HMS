@@ -35,10 +35,10 @@ class Issue extends Model{
                                     mtn.last_name as mtnlname 
                             FROM issues i left join mtnpersonnel mtn on i.assigned_to=mtn.id_num WHERE HMemberIDnum = :HMemberIDnum;');
         $this->db->bind(':HMemberIDnum', $HMemberIDnum);
-        $issues = $this->db->resultSet();
+        $issues_assigned = $this->db->resultSet();
 
 
-        return $issues;
+        return $issues_assigned;
     } #returns an associative list of issues reported by a hall member using the hall member's ID number 
 
     public function updateIssue($data){
@@ -71,53 +71,34 @@ class Issue extends Model{
     }
 
     public function viewAllIssues(){
-        $this->db->query('SELECT i.issueID, i.date, i.subject, i.classification, i.assigned_to, 
-                                    i.status, i.description, mtn.first_name as mtnfname, 
-                                    mtn.last_name as mtnlname 
-                            FROM issues i left join mtnpersonnel mtn on i.assigned_to=mtn.id_num;');
+        $this->db->query('SELECT * FROM issues;');
 
         $issues = $this->db->resultSet();
-
+        
         return $issues;
     }//END viewAllIssues
 
     public function viewIssue($iid){
-        $this->db->query('SELECT i.*, r.first_name as rfname, r.last_name as rlname,r.cluster_name, r.household, r.room_num,
-                                    mtn.first_name as mtnfname, mtn.last_name as mtnlname, a.first_name as afname, 
-                                    a.last_name as alname
-                            FROM issues i join resident r on i.HMemberIDnum=r.IDnum 
-                            left join admin a on a.id_num= i.last_updated_by
-                            left join mtnpersonnel mtn on i.assigned_to=mtn.id_num
-                            WHERE i.issueID= :iid;');
-        $this->db->bind(':iid', $iid);
-        $issue = $this->db->single();
-        return $issue;
+        // $this->db->query('SELECT i.*, r.first_name as rfname, r.last_name as rlname,r.cluster_name, r.household, r.room_num
+        //                     FROM issues i join resident r on i.HMemberIDnum=r.IDnum 
+        //                     WHERE i.issueID= :iid;');
+        // $this->db->bind(':iid', $iid);
+        // $issue = $this->db->single();
+
+
+        // $this->db->query('SELECT a.first_name as afname, a.last_name as alname 
+        //                     FROM issues i join admin a on a.id_num= i.last_update_by
+        //                     WHERE i.issueID= :iid;');
+        // $this->db->bind(':iid', $iid);
+        // $updatedby = $this->db->single();
+
+
+        // $this->db->query('SELECT mtn.first_name as mtnfname, mtn.last_name as mtnlname 
+        //                     FROM issues i join mtnpersonnel mtn on mtn.id_num= i.assinged_to
+        //                     WHERE i.issueID= :iid;');
+        // $this->db->bind(':iid', $iid);
+        // $assignedto = $this->db->single();
+                
+        // return array_merge($issue, $updatedby, $assignedto);
     }//END view Issue
-
-
-    public function addFeedback($data){
-        $this->db->query('INSERT INTO feedback (issueID, comment, sender, date) 
-                            VALUES (:issueID, :comment, :sender, :date);');
-        $this->db->bind(':issueID', $data['iid']);
-        $this->db->bind(':comment', $data['comment']);
-        $this->db->bind(':sender', $data['uid']);
-        $date = date("Y-m-d"); #in format "Y-m-d ", ie: "2019-11-24 "
-        $this->db->bind(':date', $date);
-
-        if ($this->db->execute()) {
-            return true;
-        }else{
-            return false;
-        }
-    }
-
-    public function getIssueFeedbacks($issueID){
-        $this->db->query('SELECT date, comment, isRead FROM feedback WHERE issueID = :issueID;');
-        
-        $this->db->bind(':issueID', $issueID);
-        $feedbacks = $this->db->resultSet();
-
-        return $feedbacks;
-    }
-
 } #class complete

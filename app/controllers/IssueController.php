@@ -5,12 +5,15 @@ class IssueController extends Controller {
     }
 
     public function logIssue(){
+        $data=[];
         $data = array(
             'title' => 'Log Issue Page',
             'rid' => '',
+            'subject' => '',
             'classification'=>'',
             'description' => '',
             'message' => '',
+            'subjectError' => '',
             'descriptionError' => '',
             'logIssueError' => ''
         );
@@ -22,8 +25,14 @@ class IssueController extends Controller {
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
             $data['rid'] = $_SESSION['user_id'];
+            $data['subject'] = trim($_POST['subject']);
             $data['classification'] = trim($_POST['classification']);
             $data['description'] = trim($_POST['description']);
+
+            //Validate subject
+            if (empty($data['subject'])) {
+                $data['subjectError'] = 'Please enter a subject.';
+            }
 
             //Validate description
             if (empty($data['description'])) {
@@ -32,7 +41,7 @@ class IssueController extends Controller {
 
 
             //Check if all errors are empty
-            if (empty($data['descriptionError'])) {
+            if (empty($data['descriptionError'])  && empty($data['subjectError'])) {
                 $result = $this->issueModel->addIssue($data);
 
                 if(!empty($result)){
@@ -51,6 +60,7 @@ class IssueController extends Controller {
 
 
     public function viewAll(){
+        $data=[];
         $data = array(
             'issues' => array(),
             'message' => ''
@@ -58,17 +68,18 @@ class IssueController extends Controller {
 
         $data['issues'] = $this->issueModel->viewAllIssues();
 
-        if(!empty($issues)){
+        if(empty($data['issues']) != false){
             $this->view('users/admin/view-all-issues',$data);
         }
         else{
             $data['message'] = "No issues were found.";
         
-            $this->view('users/admin/view-all-issues',$data);
+            $this->view('users/view-all-issues copy',$data);
         }
-    }
+    }//End viewAll
 
     public function viewIssuesByHallMemberID(){
+        $data=[];
         $data = array(
             'issues' => array(),
             'message' => ''
@@ -76,23 +87,54 @@ class IssueController extends Controller {
 
         $data['issues'] = $this->issueModel->viewIssuesByHallMemberID($_SESSION['user_id']);
 
-        if(!empty($issues)){
+        if(empty($data['issues']) != false){
             $this->view('users/resident/view-all-issues',$data);
         }
         else{
             $data['message'] = "No issues were found.";
         
-            $this->view('users/resident/view-all-issues',$data);
+            $this->view('users/view-all-issues copy',$data);
+        }
+    }
+
+    public function viewIssue($iid){
+        $data=[];
+        $data = array(
+            'iid' => $iid[0],
+            'issue' => array(),
+            'feedbacks' => array(),
+            'commentError' => '',
+            'giveFeedbackError' => '',
+            'feedback-message' => '',
+            'message' => '',
+            'updateMessage'=>'',
+            'updateIssueError' => ''
+        );
+
+        $data['issue']  = $this->getIssueAndFeedbacks($data['iid']);
+        // var_dump($data['issue']);
+        if(empty($data['issue']) != false){
+            $this->view('users/view-issue',$data);
+        }
+        else{
+            $data['message'] = "No issues were found.";
+        
+            $this->view('users/view-issue',$data);
         }
     }
     
-    public function updateIssue(){
+    public function updateIssue($iid){
+        $data=[];
         $data = array(
             'title' => 'Log Issue Page',
-            'iid' => '',
-            'status'=>'',
+            'iid' => $iid[0],
+            'issue' => array(),
+            'feedbacks' => array(),
+            'commentError' => '',
+            'giveFeedbackError' => '',
+            'feedback-message' => '',
             'message' => '',
-            'iidError' => '',
+            'updateMessage'=>'',
             'updateIssueError' => ''
         );
 
@@ -102,7 +144,6 @@ class IssueController extends Controller {
             //Sanitize post data
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
-            $data['iid'] = trim($_POST['iid']);
             $data['status'] = trim($_POST['status']);
 
             //Validate description
@@ -114,18 +155,69 @@ class IssueController extends Controller {
             //Check if all errors are empty
             if (empty($data['iidError'])) {
                 $result = $this->issueModel->updateIssue($data);
-
+                $data['issue'] = $this->getIssueAndFeedbacks($data['iid']);
                 if($result){
-                    $data['message'] = "Issue successfully updated.";
-                    $this->view('users/admin/update-issue',$data);
+                    $data['updateMessage'] = "Issue successfully updated.";
+                    $this->view('users/view-issue',$data);
                 }
                 else{
                     $data['updateIssueError'] = "Issue update unsuccessful.";
                 
-                    $this->view('users/admin/update-issue',$data);
+                    $this->view('users/view-issue',$data);
                 }
             }
         }//END Check for POST
-        $this->view('users/admin/update-issue',$data);
+        $this->view('users/view-issue',$data);
+    }//End updateIssue
+
+
+    public function logFeedback($iid){
+        $data=[];
+        $data = array(
+            'title' => 'View Isuue Page',
+            'iid' => $iid[0],
+            'issue' => array(),
+            'feedbacks'=>'',
+            'commentError' => '',
+            'giveFeedbackError' => '',
+            'feedback-message' => '',
+            'message' => ''
+        );
+
+        //Check for post
+        if($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            //Sanitize post data
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+            $data['comment'] = trim($_POST['comment']);
+            $data['uid'] = $_SESSION['user_id'];
+
+
+            //validate comment
+            if (empty($data['comment'])) {
+                $data['commentError'] = 'Please enter an a comment.';
+            }
+
+            //Check if all errors are empty
+            if (empty($data['commentError'])) {
+                $result = $this->issueModel->addFeedback($data);
+                $data['issue'] = $this->getIssueAndFeedbacks($data['iid']);
+                if($result){
+                    $data['feedback-message'] = "Feedback successfully added.";
+                    $this->view('users/view-issue',$data);
+                }
+                else{
+                    $data['giveFeedbackError'] = "Feedback log was unsuccessful.";
+                    $this->view('users/view-issue',$data);
+                }
+            }
+            $data['giveFeedbackError'] = "Feedback log was unsuccessful.";
+        }//END Check for POST
+        $this->view('users/view-issue',$data);
+    }//END function resSubIssue
+
+    private function getIssueAndFeedbacks($iid){
+        return array($this->issueModel->viewIssue($iid), $this->issueModel->getIssueFeedbacks($iid));
     }
 }

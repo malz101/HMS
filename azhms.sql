@@ -16,7 +16,8 @@ CREATE TABLE `admin` (
   `cluster_name` varchar(20) NOT NULL DEFAULT 'NOT ASSIGNED',
   `room_num` varchar(4) NOT NULL DEFAULT 'NONE',
   `position` enum('Resident Advisor','Student Services and Development Manager','Hall Chair','Deputy Hall Chair','Operations Manager','Courier Attendant') NOT NULL,
-  `full_name` varchar(30) NOT NULL,
+  `first_name` varchar(30) NOT NULL,
+  `last_name` varchar(30) NOT NULL,
   PRIMARY KEY (`id_num`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -24,7 +25,7 @@ CREATE TABLE `admin` (
 -- Dumping data for table `admin`
 --
 LOCK TABLES `admin` WRITE;
-INSERT INTO `admin` VALUES ('500004432','NOT ASSIGNED','NONE','Resident Advisor','John Doe');
+INSERT INTO `admin` VALUES ('500004432','NOT ASSIGNED','NONE','Resident Advisor','John', 'Doe');
 UNLOCK TABLES;
 
 
@@ -60,11 +61,15 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `issues`;
 CREATE TABLE `issues` (
   `issueID` int NOT NULL AUTO_INCREMENT,
-  `date` varchar(10) NOT NULL,
+  `date` date NOT NULL,
   `HMemberIDnum` varchar(10) DEFAULT NULL,
+  `subject` varchar(30) NOT NULL,
   `classification` enum('PLUMBING','ELECTRICAL','ROOM FIXTURES','FURNITURE','ADMINISTRATIVE','APPLIANCE','INFRASTRUCTURE') NOT NULL,
+  `assigned_to` varchar(10) NOT NULL DEFAULT 'Unassinged',
   `status` enum('PENDING','FIXING','FOLLOW UP','RESOLVED') NOT NULL DEFAULT 'PENDING',
   `description` varchar(250) NOT NULL,
+  `last_updated_by` varchar(10) DEFAULT NULL,
+  `updated_on` date DEFAULT NULL,
   PRIMARY KEY (`issueID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
@@ -72,13 +77,13 @@ CREATE TABLE `issues` (
 -- Dumping data for table `issues`
 --
 LOCK TABLES `issues` WRITE;
-INSERT INTO `issues` VALUES (1,'11 24 2019',NULL,'ROOM FIXTURES','RESOLVED','The visitors bathroom has no plunger');
-INSERT INTO `issues` VALUES (2,'11 24 2019',NULL,'INFRASTRUCTURE','PENDING','The water fountain is not pushing water at reasonable pressure');
-INSERT INTO `issues` VALUES (3,'11 24 2019','620117676','PLUMBING','PENDING','The pipe in the kitch keeps running even though it is turned off');
-INSERT INTO `issues` VALUES (4,'11 27 2019','620117676','ELECTRICAL','PENDING','The light bulb in the bathroom is not working'); 
-INSERT INTO `issues` VALUES (5,'11 27 2019','620117679','APPLIANCE','PENDING','The microwave stopped working'); 
-INSERT INTO `issues` VALUES (6,'11 27 2019','620125555','FURNITURE','FIXING','The closet door fell off');
-INSERT INTO `issues` VALUES (7,'11 27 2019','620117676','APPLIANCE','RESOLVED','The refrigerator is leaking');
+INSERT INTO `issues` VALUES (1,'2019-11-24 ',NULL,'No Plunger','ROOM FIXTURES','720111111','RESOLVED','The visitors bathroom has no plunger','500004432', '2020-01-04');
+INSERT INTO `issues` VALUES (2,'2019-11-24 ',NULL,'Water Fountain Malfunction','INFRASTRUCTURE','720111111','PENDING','The water fountain is not pushing water at reasonable pressure','500004432','2020-01-04' );
+INSERT INTO `issues` VALUES (3,'2019-11-24 ','620117676','Leaking Pipe','PLUMBING','720111111','PENDING','The pipe in the kitch keeps running even though it is turned off','500004432','2020-01-04');
+INSERT INTO `issues` VALUES (4,'2019-11-27 ','620117676','Broken Light','ELECTRICAL','720111112','PENDING','The light bulb in the bathroom is not working','500004432','2020-01-04'); 
+INSERT INTO `issues` VALUES (5,'2019-11-27 ','620117679','Microwave Not Working','APPLIANCE','720111111','PENDING','The microwave stopped working','500004432','2020-01-04'); 
+INSERT INTO `issues` VALUES (6,'2019-11-27 ','620125555','Broken Closet Door','FURNITURE','720111112','FIXING','The closet door fell off',NULL,NULL);
+INSERT INTO `issues` VALUES (7,'2019-11-27 ','620117676','Leaking Refrigerator','APPLIANCE','720111111','RESOLVED','The refrigerator is leaking',NULL,NULL);
 UNLOCK TABLES;
 
 
@@ -130,4 +135,28 @@ INSERT INTO `resident` VALUES ('620117679','Jeremy','Doe','La Maison','A','20A4'
 INSERT INTO `resident` VALUES ('620125555','Sue','Chin','Shamrock','D','50D4');
 
 UNLOCK TABLES;
+
+
+--
+-- Table structure for table `mtnpersonnel`
+--
+DROP TABLE IF EXISTS `mtnpersonnel`;
+CREATE TABLE `mtnpersonnel` (
+  `id_num` varchar(10) NOT NULL,
+  `first_name` varchar(20) NOT NULL,
+  `last_name` varchar(20) NOT NULL,
+  `tele` varchar(10) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `affiliation` varchar(100) NOT NULL,
+  PRIMARY KEY (`id_num`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `mtnpersonnel`
+--
+LOCK TABLES `mtnpersonnel` WRITE;
+INSERT INTO `mtnpersonnel` VALUES ('720111111','Javier','Williams','8761234567','jw@gmail.com','UWI');
+INSERT INTO `mtnpersonnel` VALUES ('720111112','Peter','Phillips','8768763456','pp@outlook.com','UWI');
+UNLOCK TABLES;
+
 -- Dump completed on 2019-11-27 20:42:13

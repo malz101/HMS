@@ -4,7 +4,7 @@ require APPROOT . '/views/includes/navbar.php';
 ?>
 <div class="hero-section">
   <div class="form-columns w-row">
-    <div class="w-col w-col-5">
+    <div class="w-col w-col-7">
       <div class="form-card">
         <h1>AZ Preston Hall Maintenance System</h1>
         <h5>&gt;&gt;Log Issue</h5>
@@ -12,6 +12,13 @@ require APPROOT . '/views/includes/navbar.php';
           <form href="<?php echo URLROOT; ?>/issue/logIssue" method="POST" id="issue-form" name="issue-form" data-name="Issue Form" class="w-clearfix">
             <span class="invalidFeedback"><?php echo $data['logIssueError']; ?></span>
             <span class="invalidFeedback"><?php echo $data['message']; ?></span>
+
+            <div class="form-group">
+              <label for="subject">Subject</label>
+              <input id="subject" name="subject" type="text" class="w-input" maxlength="35"  data-name="Subject" placeholder="Enter issue subject" required>
+              <span class="invalidFeedback"><?php echo $data['subjectError']; ?></span>
+            </div>
+
             <div class="form-group">
               <label for="classification">Issue category</label>
               <select id="classification" name="classification" required data-name="classification" class="w-select">
@@ -42,7 +49,7 @@ require APPROOT . '/views/includes/navbar.php';
         </div>
       </div>
     </div>
-    <div class="w-col w-col-7"><img src="<?php echo URLROOT ?>/public/images/form-pic.png" srcset="<?php echo URLROOT ?>/images/form-pic-p-500.png 500w, <?php echo URLROOT ?>/images/form-pic.png 750w" sizes="(max-width: 479px) 67vw, (max-width: 767px) 79vw, 48vw" alt=""></div>
+    <div class="w-col w-col-5"><img src="<?php echo URLROOT ?>/public/images/form-pic.png" srcset="<?php echo URLROOT ?>/images/form-pic-p-500.png 500w, <?php echo URLROOT ?>/images/form-pic.png 750w" sizes="(max-width: 479px) 67vw, (max-width: 767px) 79vw, 48vw" alt=""></div>
   </div>
 </div>
 <?php

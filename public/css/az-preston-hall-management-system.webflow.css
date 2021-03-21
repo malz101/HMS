@@ -43,6 +43,15 @@ a {
   text-decoration: none;
 }
 
+footer{
+  background-color: #443266;
+  color: #fff;
+  margin-top: 50px;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  padding-left: 10%;
+}
+
 .navbar {
   background-color: transparent;
 }
@@ -205,6 +214,7 @@ a {
 }
 
 .hero-card {
+  width: 100%;
   margin-top: 5px;
   padding: 40px 20px;
   border-radius: 10px;
@@ -218,6 +228,7 @@ a {
   padding: 20px 70px;
   -webkit-transition: background-color 275ms ease-in-out;
   transition: background-color 275ms ease-in-out;
+  width: fit-content;
 }
 
 .confirm-columns {

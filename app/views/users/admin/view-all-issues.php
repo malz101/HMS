@@ -5,7 +5,7 @@ require APPROOT . '/views/includes/navbar.php';
 <div class="hero-section">
   <div class="column w-row">
     <div class="w-col w-col-11">
-      <div class="hero-card">
+      <div class="hero-card table-container">
         <h2>AZ Preston Hall Management System</h2>
         <h5>View All User Issues</h5>
 

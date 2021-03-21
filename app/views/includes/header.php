@@ -17,6 +17,8 @@
   <link href= '<?php echo URLROOT ?>/public/css/normalize.css' rel="stylesheet" type="text/css">
   <link href="<?php echo URLROOT ?>/public/css/webflow.css" rel="stylesheet" type="text/css">
   <link href="<?php echo URLROOT ?>/public/css/az-preston-hall-management-system.webflow.css" rel="stylesheet" type="text/css">
+  <link href="<?php echo URLROOT ?>/public/css/view-all-issues.css" rel="stylesheet" type="text/css">
+  <link href="<?php echo URLROOT ?>/public/css/view-issue.css" rel="stylesheet" type="text/css">
   <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
   <script type="text/javascript">WebFont.load({  google: {    families: ["Roboto:100,300,300italic,regular,500,700,900"]  }});</script>
   <script type="text/javascript">!function(o,c){var n=c.documentElement,t=" w-mod-";n.className+=t+"js",("ontouchstart"in o||o.DocumentTouch&&c instanceof DocumentTouch)&&(n.className+=t+"touch")}(window,document);</script>
