@@ -17,34 +17,28 @@ $feedbacks = $data['issue'][1];
         </div>
 
         <div class="feedback-section form-card">
-            <h4>Feedback</h4>
+            <h4>Feedbacks</h4>
             <div class="issue-Feedbacks">
                 <?php foreach($feedbacks as $feedback):?>
                     <p class="feedback"><?php echo $feedback['comment']?></p>
                         <p class="feedback-meta-data">>Logged on: <?php echo $feedback['date']?></p>
-                        <p class="feedback-meta-data"><?php if($feedback['isRead']==1){
-                                        echo '> Read';
-                                    }?>
+                        <p class="feedback-meta-data"><?php if($feedback['isRead']==1){echo '> Read';}?>
                         </p>
                     </p>
                 <?php endforeach?>
             </div>
-            <?php if($_SESSION['user_type']=='resident'):?>
-                <span class="invalidFeedback"><?php echo $data['giveFeedbackError']; ?></span>
-                    <span class="invalidFeedback"><?php echo $data['feedback-message']; ?></span>
-                <form action="<?php echo URLROOT; ?>/issue/logFeedback/<?php echo $issue['issueID'] ?>" method="POST" class="feedback-form" id="feedback-form">
-                    <div class="form-group">
-                        <textarea id="comment" name="comment" type="text" class="description-field w-input" data-name="Feedback" placeholder="feedback" required></textarea>
-                        <span class="invalidFeedback"><?php echo $data['commentError']; ?></span>
-                        <button type="submit" id='submit-feedback-btn'>Submit</button>
-                    </div>
-                </form>
-                <button class='add-feedback-btn'>Add Feedback</button>
-            <?php endif?>
+
+            <?php if($_SESSION['user_type']=='resident'){require_once 'resident/feedback-form.php';}?>
         </div>
         
         <div class='sidebar'>
             <div>
+                <label>Cluster:</label>
+                <p><?php echo $issue['cluster_name']?></p>
+                <label>Household:</label>
+                <p><?php echo $issue['household']?></p>
+                <label>Room Number:</label>
+                <p><?php echo $issue['room_num']?></p>
                 <label>Assigned To:</label>
                 <p><?php echo ($issue['mtnfname'].' '.$issue['mtnlname']);?></p>
                 <label>Type:</label>
@@ -53,22 +47,7 @@ $feedbacks = $data['issue'][1];
                 <p id='status'><?php echo $issue['status']?></p>
             </div>
 
-            <?php if($_SESSION['user_type']=='admin'):?>
-                        <form action="<?php echo URLROOT; ?>/issue/updateIssue/<?php echo $issue['issueID']?>" method="POST" id="update-issue-form" name="update-issue-form" data-name="Update Issue Form" class="w-clearfix">
-                            
-                            <label for="status">Issue Status</label>
-
-                            <select id="status" name="status" required="" data-name="Status" class="w-select">
-                                <option value="PENDING">Pending</option>
-                                <option value="FIXING">Fixing</option>
-                                <option value="FOLLOW UP">Follow up</option>
-                                <option value="RESOLVED">Resolved</option>
-                                </select>
-                                <span class="invalidFeedback"><?php echo $data['updateMessage']; ?></span>
-                                <span class="invalidFeedback"><?php echo $data['updateIssueError']; ?></span>
-                            <input id="submit-update-issue" type="submit" value="Submit" data-wait="Please wait..." class="btn-filled blue w-button">
-                        </form>
-            <?php endif?>
+            <?php if($_SESSION['user_type']=='admin'){require_once 'admin/update-issue-form.php';}?>
         </div>
     </div>
 </div>

@@ -5,8 +5,8 @@ require APPROOT . '/views/includes/navbar.php';
 <div class="hero-section">
     <div class="hero-card table-container">
       <h2>AZ Preston Hall Management System</h2>
-      <h5>View All Issues</h5>
-
+      <h3>View All Issues</h3>
+      <?php require_once 'filter-search-bar.php'?>
       <table>
         <thead>
           <tr>
@@ -22,17 +22,13 @@ require APPROOT . '/views/includes/navbar.php';
 
           <?php foreach ($data['issues'] as $issue): ?>
             <tr id=".<?php echo $issue['issueID']?>" data-href="<?php echo URLROOT ?>/issue/viewIssue/<?php echo $issue['issueID']?>">
-            <td class="issue-id-column"><?php echo $issue['issueID']?></td>
-            <td><?php echo $issue['subject']?></td>
-            <td><?php echo $issue['classification']?></td>
-            <td><?php echo $issue['status'] ?></td>
-            <td><?php if ($issue['assigned_to']=='Unassigned'){
-                          echo $issue['assigned_to'];
-                      }
-                      echo ($issue['mtnfname'].' '.$issue['mtnlname']);
-                ?>
-            </td>
-            <td><?php echo date($issue['date'])?></td>
+              <td class="issue-id-column"><?php echo $issue['issueID']?></td>
+              <td><?php echo $issue['subject']?></td>
+              <td><?php echo $issue['classification']?></td>
+              <td><?php echo $issue['status'] ?></td>
+              <td><?php echo ($issue['mtnfname'].' '.$issue['mtnlname']);?>
+              </td>
+              <td><?php echo date($issue['date'])?></td>
             </tr>
           <?php endforeach ?>
         </tbody>

@@ -23,12 +23,6 @@ class Issue extends Model{
     }
 
     public function viewIssuesByHallMemberID($HMemberIDnum){
-        // $this->db->query('SELECT issueID, date, subject, classification,i.assigned_to, status, description 
-        //                     FROM issues WHERE assigned_to=:unassigned AND HMemberIDnum = :HMemberIDnum;');
-        // $this->db->bind(':HMemberIDnum', $HMemberIDnum);
-        // $this->db->bind(':unassigned', 'Unassigned');
-        // $issues_unassigned = $this->db->resultSet();
-
 
         $this->db->query('SELECT i.issueID, i.date, i.subject, i.classification, i.assigned_to, 
                                     i.status, i.description, mtn.first_name as mtnfname, 

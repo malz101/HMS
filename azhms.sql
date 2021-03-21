@@ -65,7 +65,7 @@ CREATE TABLE `issues` (
   `HMemberIDnum` varchar(10) DEFAULT NULL,
   `subject` varchar(30) NOT NULL,
   `classification` enum('PLUMBING','ELECTRICAL','ROOM FIXTURES','FURNITURE','ADMINISTRATIVE','APPLIANCE','INFRASTRUCTURE') NOT NULL,
-  `assigned_to` varchar(10) NOT NULL DEFAULT 'Unassinged',
+  `assigned_to` varchar(10) NOT NULL DEFAULT,
   `status` enum('PENDING','FIXING','FOLLOW UP','RESOLVED') NOT NULL DEFAULT 'PENDING',
   `description` varchar(250) NOT NULL,
   `last_updated_by` varchar(10) DEFAULT NULL,
@@ -77,8 +77,6 @@ CREATE TABLE `issues` (
 -- Dumping data for table `issues`
 --
 LOCK TABLES `issues` WRITE;
-INSERT INTO `issues` VALUES (1,'2019-11-24 ',NULL,'No Plunger','ROOM FIXTURES','720111111','RESOLVED','The visitors bathroom has no plunger','500004432', '2020-01-04');
-INSERT INTO `issues` VALUES (2,'2019-11-24 ',NULL,'Water Fountain Malfunction','INFRASTRUCTURE','720111111','PENDING','The water fountain is not pushing water at reasonable pressure','500004432','2020-01-04' );
 INSERT INTO `issues` VALUES (3,'2019-11-24 ','620117676','Leaking Pipe','PLUMBING','720111111','PENDING','The pipe in the kitch keeps running even though it is turned off','500004432','2020-01-04');
 INSERT INTO `issues` VALUES (4,'2019-11-27 ','620117676','Broken Light','ELECTRICAL','720111112','PENDING','The light bulb in the bathroom is not working','500004432','2020-01-04'); 
 INSERT INTO `issues` VALUES (5,'2019-11-27 ','620117679','Microwave Not Working','APPLIANCE','720111111','PENDING','The microwave stopped working','500004432','2020-01-04'); 
