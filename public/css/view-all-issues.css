@@ -1,3 +1,18 @@
+.filter-bar{
+    margin-top: 2rem;
+}
+
+.filter-form{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 1rem;
+}
+
+.filter-form-group{
+    display: inline-block;
+    margin-right: 3rem; 
+}
+
 .table-container{
     /* word-break: break-word; */
     display: table;

@@ -59,24 +59,24 @@ class IssueController extends Controller {
     }//END function logIssue
 
 
-    public function viewAll(){
-        $data=[];
-        $data = array(
-            'issues' => array(),
-            'message' => ''
-        );
+    // public function viewAll(){
+    //     $data=[];
+    //     $data = array(
+    //         'issues' => array(),
+    //         'message' => ''
+    //     );
 
-        $data['issues'] = $this->issueModel->viewAllIssues();
+    //     $data['issues'] = $this->issueModel->viewAllIssues();
 
-        if(empty($data['issues']) != false){
-            $this->view('users/admin/view-all-issues',$data);
-        }
-        else{
-            $data['message'] = "No issues were found.";
+    //     if(empty($data['issues']) != false){
+    //         $this->view('users/admin/view-all-issues',$data);
+    //     }
+    //     else{
+    //         $data['message'] = "No issues were found.";
         
-            $this->view('users/view-all-issues copy',$data);
-        }
-    }//End viewAll
+    //         $this->view('users/view-all-issues copy',$data);
+    //     }
+    // }//End viewAll
 
     public function viewIssuesByHallMemberID(){
         $data=[];
@@ -217,7 +217,50 @@ class IssueController extends Controller {
         $this->view('users/view-issue',$data);
     }//END function resSubIssue
 
+
     private function getIssueAndFeedbacks($iid){
         return array($this->issueModel->viewIssue($iid), $this->issueModel->getIssueFeedbacks($iid));
+    }
+
+
+    public function viewAll(){
+        $data=[];
+        $data = array(
+            'issues' => array(),
+            'status' => '',
+            'classification' => '',
+            'message' => ''
+        );
+
+        if($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            //Sanitize post data
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+            $data['status'] = trim($_POST['status']);
+            $data['classification'] = trim($_POST['classification']);
+
+            $data['issues'] = $this->issueModel->viewAllIssuesbyFilter($data);
+
+            //Check if all errors are empty
+            if(empty($data['issues']) != false){
+                $this->view('users/admin/view-all-issues',$data);
+            }
+            else{
+                $data['message'] = "No issues were found.";
+                $this->view('users/view-all-issues copy',$data);
+            }
+        }//END Check for POST
+
+
+        $data['issues'] = $this->issueModel->viewAllIssues();
+
+        if(empty($data['issues']) != false){
+            $this->view('users/admin/view-all-issues',$data);
+        }
+       
+        $data['message'] = "No issues were found.";
+        
+        $this->view('users/view-all-issues copy',$data);
     }
 }

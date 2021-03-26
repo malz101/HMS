@@ -75,6 +75,19 @@ class Issue extends Model{
         return $issues;
     }//END viewAllIssues
 
+    public function viewAllIssuesbyFilter($filter){
+                $this->db->query('SELECT i.issueID, i.date, i.subject, i.classification, i.assigned_to, 
+                                    i.status, i.description, mtn.first_name as mtnfname, 
+                                    mtn.last_name as mtnlname 
+                            FROM issues i left join mtnpersonnel mtn on i.assigned_to=mtn.id_num 
+                            where i.classification like :classification and i.status like :status;');
+        
+        $this->db->bind(':classification', $filter['classification']);
+        $this->db->bind(':status', $filter['status']);
+        $issues = $this->db->resultSet();
+        return $issues;
+    }
+
     public function viewIssue($iid){
         $this->db->query('SELECT i.*, r.first_name as rfname, r.last_name as rlname,r.cluster_name, r.household, r.room_num,
                                     mtn.first_name as mtnfname, mtn.last_name as mtnlname, a.first_name as afname, 
