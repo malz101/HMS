@@ -7,7 +7,7 @@ class ResidentController extends UserController {
 
     public function confirmation(){
         $data=array();
-        $this->view('/users/resident/log-issue',$data);
+        $this->view('/users/resident/confirmation',$data);
     }
 
     public function home(){

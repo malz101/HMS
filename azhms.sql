@@ -66,7 +66,7 @@ CREATE TABLE `issues` (
   `subject` varchar(30) NOT NULL,
   `classification` enum('PLUMBING','ELECTRICAL','ROOM FIXTURES','FURNITURE','ADMINISTRATIVE','APPLIANCE','INFRASTRUCTURE') NOT NULL,
   `assigned_to` varchar(10) NOT NULL DEFAULT,
-  `status` enum('PENDING','FIXING','FOLLOW UP','RESOLVED') NOT NULL DEFAULT 'PENDING',
+  `status` enum('PENDING','NEED REPAIRS','FIXING','FOLLOW UP','RESOLVED') NOT NULL DEFAULT 'PENDING',
   `description` varchar(250) NOT NULL,
   `last_updated_by` varchar(10) DEFAULT NULL,
   `updated_on` date DEFAULT NULL,

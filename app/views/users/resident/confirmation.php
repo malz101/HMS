@@ -1,23 +1,17 @@
 <?php
 require APPROOT . '/views/includes/header.php';
+require APPROOT . '/views/includes/navbar.php';
 ?>
-<div data-collapse="medium" data-animation="default" data-duration="400" class="navbar w-nav">
-  <div class="w-container">
-    <nav role="navigation" class="w-nav-menu"><a href="#" class="navbtn w-button">Notifications</a></nav><a href="index.php" class="nav-link w-nav-link">Home</a><a class="nav-link w-nav-link sign-out">Sign Out</a>
-    <div class="w-nav-button">
-      <div class="w-icon-nav-menu"></div>
-    </div>
-  </div>
-</div>
 <div class="hero-section">
   <div class="confirm-columns w-row">
     <div class="w-col w-col-3"></div>
     <div class="w-col w-col-9">
       <div class="hero-card">
         <h1>Thank you for using the<br>AZ Preston Hall Maintenance System</h1>
-        <h5>Data collected here will only be used to improve living conditions on AZ Preston Hall</h5><a id="continue-button" class="btn-filled w-button">Continue --&gt;</a></div>
+        <h5>Data collected here will only be used to improve living conditions on AZ Preston Hall</h5>
+        <a href="<?php echo URLROOT?>/resident/home" id="continue-button" class="btn-filled w-button">Continue --&gt;</a></div>
     </div>
-</div><img src="images/gift-1.png" srcset="images/gift-1-p-500.png 500w, images/gift-1-p-800.png 800w, images/gift-1.png 1080w" sizes="100vw" alt=""></div>
+</div><img src="<?php echo URLROOT?>/images/gift-1.png" srcset="<?php echo URLROOT?>/images/gift-1-p-500.png 500w, <?php echo URLROOT?>/images/gift-1-p-800.png 800w, <?php echo URLROOT?>/images/gift-1.png 1080w" sizes="100vw" alt=""></div>
 <?php
 require APPROOT . '/views/includes/footer.php';
 ?>

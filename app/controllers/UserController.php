@@ -70,7 +70,7 @@ class UserController extends Controller {
             header ( "Location: ".URLROOT."/admin/home");
             break;
             case "resident":
-            header ( "Location: ".URLROOT."/resident/home");
+            header ( "Location: ".URLROOT."/resident/confirmation");
             break;
             case "mtnpersonnel":
             header ( "Location: ".URLROOT."/mtnpersonnel/home");
