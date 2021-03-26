@@ -47,23 +47,6 @@ class Issue extends Model{
         return false;
     }
 
-
-    public function viewIssuesByCluster($cluster_name){
-        
-    }
-
-    public function viewIssuesByStatus($status){
-
-    }
-
-    public function viewIssuesByStatusANDHallMemberID($status, $HMemberIDnum){
-
-    }
-
-    public function viewIssuesByClassification($classification){
-
-    }
-
     public function viewAllIssues(){
         $this->db->query('SELECT i.issueID, i.date, i.subject, i.classification, i.assigned_to, 
                                     i.status, i.description, mtn.first_name as mtnfname, 
@@ -76,7 +59,7 @@ class Issue extends Model{
     }//END viewAllIssues
 
     public function viewAllIssuesbyFilter($filter){
-                $this->db->query('SELECT i.issueID, i.date, i.subject, i.classification, i.assigned_to, 
+        $this->db->query('SELECT i.issueID, i.date, i.subject, i.classification, i.assigned_to, 
                                     i.status, i.description, mtn.first_name as mtnfname, 
                                     mtn.last_name as mtnlname 
                             FROM issues i left join mtnpersonnel mtn on i.assigned_to=mtn.id_num 
@@ -125,6 +108,19 @@ class Issue extends Model{
         $feedbacks = $this->db->resultSet();
 
         return $feedbacks;
+    }
+
+
+    public function searchForIssue($key){
+        $this->db->query('SELECT i.issueID, i.date, i.subject, i.classification, i.assigned_to, 
+                                    i.status, i.description, mtn.first_name as mtnfname, 
+                                    mtn.last_name as mtnlname 
+                            FROM issues i left join mtnpersonnel mtn on i.assigned_to=mtn.id_num 
+                            where i.issueID like :key;');
+        
+        $this->db->bind(':key', $key);
+        $issues = $this->db->resultSet();
+        return $issues;
     }
 
 } #class complete

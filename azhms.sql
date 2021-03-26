@@ -65,7 +65,7 @@ CREATE TABLE `issues` (
   `HMemberIDnum` varchar(10) DEFAULT NULL,
   `subject` varchar(30) NOT NULL,
   `classification` enum('PLUMBING','ELECTRICAL','ROOM FIXTURES','FURNITURE','ADMINISTRATIVE','APPLIANCE','INFRASTRUCTURE') NOT NULL,
-  `assigned_to` varchar(10) NOT NULL DEFAULT,
+  `assigned_to` varchar(10),
   `status` enum('PENDING','NEED REPAIRS','FIXING','FOLLOW UP','RESOLVED') NOT NULL DEFAULT 'PENDING',
   `description` varchar(250) NOT NULL,
   `last_updated_by` varchar(10) DEFAULT NULL,

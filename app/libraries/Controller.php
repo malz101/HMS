@@ -17,9 +17,4 @@ class Controller {
             die("View does not exists.");
         }
     }
-
-
-    // public function message($data){
-    //     echo json_encode($data);
-    // }
 }

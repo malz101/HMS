@@ -60,24 +60,44 @@ class IssueController extends Controller {
 
 
 
-    public function viewIssuesByHallMemberID(){
+    public function viewByResID(){
         $data=[];
         $data = array(
             'issues' => array(),
+            'status' => '',
+            'classification' => '',
             'message' => ''
         );
 
-        $data['issues'] = $this->issueModel->viewIssuesByHallMemberID($_SESSION['user_id']);
+        if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-        if(empty($data['issues']) != false){
-            $this->view('users/view-all-issues copy',$data);
-        }
+            //Sanitize post data
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+            $data['status'] = trim($_POST['status']);
+            $data['classification'] = trim($_POST['classification']);
+
+            $data['issues'] = $this->issueModel->viewAllIssuesbyFilter($data);
+
+            //Check if all errors are empty
+            if(empty($data['issues'])){
+                $data['message'] = "empty";
+                $this->view('users/view-all-issues copy',$data);
+            }else{
+                $this->view('users/view-all-issues copy',$data);
+            }
+        }//END Check for POST
         else{
-            $data['message'] = "empty";
-        
-            $this->view('users/view-all-issues copy',$data);
+            $data['issues'] = $this->issueModel->viewAllIssues();
+
+            if(empty($data['issues'])){
+                $data['message'] = "empty";
+                $this->view('users/view-all-issues copy',$data);
+            }else{
+                $this->view('users/view-all-issues copy',$data);
+            }
         }
-    }
+    }//END ViewAll
 
     public function viewIssue($iid){
         $data=[];
@@ -223,6 +243,49 @@ class IssueController extends Controller {
             $data['classification'] = trim($_POST['classification']);
 
             $data['issues'] = $this->issueModel->viewAllIssuesbyFilter($data);
+
+            //Check if all errors are empty
+            if(empty($data['issues'])){
+                $data['message'] = "empty";
+                $this->view('users/view-all-issues copy',$data);
+            }else{
+                $this->view('users/view-all-issues copy',$data);
+            }
+        }//END Check for POST
+        else{
+            $data['issues'] = $this->issueModel->viewAllIssues();
+
+            if(empty($data['issues'])){
+                $data['message'] = "empty";
+                $this->view('users/view-all-issues copy',$data);
+            }else{
+                $this->view('users/view-all-issues copy',$data);
+            }
+        }
+    }//END ViewAll
+
+    public function searchForIssue(){
+        $data=[];
+        $data = array(
+            'issues' => array(),
+            'status' => '',
+            'classification' => '',
+            'key' => '',
+            'message' => ''
+        );
+
+        if($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            //Sanitize post data
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+            $data['key'] = trim($_POST['key']);
+
+            if(empty($data['key'])){
+                $data['key'] = "%";
+            }
+
+            $data['issues'] = $this->issueModel->searchForIssue($data['key']);
 
             //Check if all errors are empty
             if(empty($data['issues'])){
