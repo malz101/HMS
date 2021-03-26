@@ -59,24 +59,6 @@ class IssueController extends Controller {
     }//END function logIssue
 
 
-    // public function viewAll(){
-    //     $data=[];
-    //     $data = array(
-    //         'issues' => array(),
-    //         'message' => ''
-    //     );
-
-    //     $data['issues'] = $this->issueModel->viewAllIssues();
-
-    //     if(empty($data['issues']) != false){
-    //         $this->view('users/admin/view-all-issues',$data);
-    //     }
-    //     else{
-    //         $data['message'] = "No issues were found.";
-        
-    //         $this->view('users/view-all-issues copy',$data);
-    //     }
-    // }//End viewAll
 
     public function viewIssuesByHallMemberID(){
         $data=[];
@@ -88,10 +70,10 @@ class IssueController extends Controller {
         $data['issues'] = $this->issueModel->viewIssuesByHallMemberID($_SESSION['user_id']);
 
         if(empty($data['issues']) != false){
-            $this->view('users/resident/view-all-issues',$data);
+            $this->view('users/view-all-issues copy',$data);
         }
         else{
-            $data['message'] = "No issues were found.";
+            $data['message'] = "empty";
         
             $this->view('users/view-all-issues copy',$data);
         }
@@ -117,7 +99,7 @@ class IssueController extends Controller {
             $this->view('users/view-issue',$data);
         }
         else{
-            $data['message'] = "No issues were found.";
+            $data['message'] = "empty";
         
             $this->view('users/view-issue',$data);
         }
@@ -243,24 +225,22 @@ class IssueController extends Controller {
             $data['issues'] = $this->issueModel->viewAllIssuesbyFilter($data);
 
             //Check if all errors are empty
-            if(empty($data['issues']) != false){
-                $this->view('users/admin/view-all-issues',$data);
-            }
-            else{
-                $data['message'] = "No issues were found.";
+            if(empty($data['issues'])){
+                $data['message'] = "empty";
+                $this->view('users/view-all-issues copy',$data);
+            }else{
                 $this->view('users/view-all-issues copy',$data);
             }
         }//END Check for POST
+        else{
+            $data['issues'] = $this->issueModel->viewAllIssues();
 
-
-        $data['issues'] = $this->issueModel->viewAllIssues();
-
-        if(empty($data['issues']) != false){
-            $this->view('users/admin/view-all-issues',$data);
+            if(empty($data['issues'])){
+                $data['message'] = "empty";
+                $this->view('users/view-all-issues copy',$data);
+            }else{
+                $this->view('users/view-all-issues copy',$data);
+            }
         }
-       
-        $data['message'] = "No issues were found.";
-        
-        $this->view('users/view-all-issues copy',$data);
     }
 }
