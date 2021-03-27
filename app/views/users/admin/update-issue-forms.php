@@ -1,10 +1,11 @@
 
 
-<form action="<?php echo URLROOT; ?>/issue/updateIssue/<?php echo $issue['issueID']?>" method="POST" id="update-issue-form" name="update-issue-form" data-name="Update Issue Form" class="w-clearfix">
+<form action="<?php echo URLROOT; ?>/issue/updateIssueStatus/<?php echo $issue['issueID']?>" method="POST" id="update-issue-form" name="update-issue-form" data-name="Update Issue Form" class="w-clearfix">
 
-    <label for="status">Issue Status</label>
+    <label for="status">Update Issue Status</label>
     <select id="status" name="status" required="" data-name="Status" class="w-select" onChange="this.form.submit()">
         <option value="PENDING">Pending</option>
+        <option value="NEED REPAIRS">Need Repairs</option>
         <option value="FIXING">Fixing</option>
         <option value="FOLLOW UP">Follow up</option>
         <option value="RESOLVED">Resolved</option>
