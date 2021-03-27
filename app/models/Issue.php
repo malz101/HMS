@@ -22,19 +22,32 @@ class Issue extends Model{
         return false;
     }
 
-    public function viewIssuesByHallMemberID($HMemberIDnum){
+    public function viewByResID($HMemberIDnum){
 
         $this->db->query('SELECT i.issueID, i.date, i.subject, i.classification, i.assigned_to, 
                                     i.status, i.description, mtn.first_name as mtnfname, 
                                     mtn.last_name as mtnlname 
-                            FROM issues i left join mtnpersonnel mtn on i.assigned_to=mtn.id_num WHERE HMemberIDnum = :HMemberIDnum;');
+                            FROM issues i left join mtnpersonnel mtn on i.assigned_to=mtn.id_num WHERE i.HMemberIDnum = :HMemberIDnum;');
         $this->db->bind(':HMemberIDnum', $HMemberIDnum);
         $issues = $this->db->resultSet();
-
-
         return $issues;
     } #returns an associative list of issues reported by a hall member using the hall member's ID number 
 
+    public function viewByResIDFilter($filter, $HMemberIDnum){
+
+        $this->db->query('SELECT i.issueID, i.date, i.subject, i.classification, i.assigned_to, 
+                                    i.status, i.description, mtn.first_name as mtnfname, 
+                                    mtn.last_name as mtnlname 
+                            FROM issues i left join mtnpersonnel mtn on i.assigned_to=mtn.id_num 
+                            WHERE i.HMemberIDnum = :HMemberIDnum and i.classification like :classification and i.status like :status;');
+        
+        $this->db->bind(':HMemberIDnum', $HMemberIDnum);
+        $this->db->bind(':classification', $filter['classification']);
+        $this->db->bind(':status', $filter['status']);
+        $issues = $this->db->resultSet();
+        return $issues;
+    } #returns an associative list of issues reported by a hall member using the hall member's ID number 
+    
     public function updateIssue($data){
         $this->db->query('UPDATE issues SET status = :status WHERE issueID = :issueID;');
 
@@ -118,6 +131,19 @@ class Issue extends Model{
                             FROM issues i left join mtnpersonnel mtn on i.assigned_to=mtn.id_num 
                             where i.issueID like :key;');
         
+        $this->db->bind(':key', $key);
+        $issues = $this->db->resultSet();
+        return $issues;
+    }
+
+    public function searchForIssuebyResID($key, $HMemberIDnum){
+        $this->db->query('SELECT i.issueID, i.date, i.subject, i.classification, i.assigned_to, 
+                                    i.status, i.description, mtn.first_name as mtnfname, 
+                                    mtn.last_name as mtnlname 
+                            FROM issues i left join mtnpersonnel mtn on i.assigned_to=mtn.id_num 
+                            where i.HMemberIDnum = :HMemberIDnum and i.issueID like :key;');
+        
+        $this->db->bind(':HMemberIDnum', $HMemberIDnum);
         $this->db->bind(':key', $key);
         $issues = $this->db->resultSet();
         return $issues;

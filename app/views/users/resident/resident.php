@@ -12,10 +12,6 @@ require APPROOT . '/views/includes/navbar.php';
         <h3 class="white funcard">View All Your Issues</h3>
       </a>
 
-      <a href="<?php echo URLROOT; ?>/feedback/logFeedback" class="function-card w-inline-block">
-        <h3 class="white funcard">Give Feedback</h3>
-      </a>
-
       <a href="#" class="function-card w-inline-block">
         <h3 class="white funcard">Schedule<br>Maintenance</h3>
       </a>

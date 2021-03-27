@@ -7,16 +7,16 @@ require APPROOT . '/views/includes/navbar.php';
     <div class="w-col w-col-6">
       <div class="form-card">
         <h2>Az Preston Hall Maintenance System</h2>
-        <h5>Add Resident</h5>
+        <h5>Add Maintennace Personnel</h5>
 
         <span class="invalidFeedback"><?php echo $data['addUserError']; ?></span>
         <span class="invalidFeedback"><?php echo $data['message']; ?></span>
 
         <div class="form w-form">
-          <form action="<?php echo URLROOT; ?>/resident/addResident" method="POST" id="add-resident-form" name="add-resident-form" data-name="Add Resident Form" class="w-clearfix">
+          <form action="<?php echo URLROOT; ?>/mtn/addMtnPersonnel" method="POST" id="add-resident-form" name="add-resident-form" data-name="Add Resident Form" class="w-clearfix">
             <div class="form-group">
-              <label for="rid">ID Number</label> 
-              <input id="rid" name="rid" type="text" class="w-input" maxlength="256"  data-name="ID number" placeholder="Enter user id number" required>
+              <label for="mid">ID Number</label> 
+              <input id="mid" name="mid" type="text" class="w-input" maxlength="256"  data-name="ID number" placeholder="Enter user id number" required>
               <span class="invalidFeedback"><?php echo $data['idError']; ?></span>
             </div>
 
@@ -31,32 +31,18 @@ require APPROOT . '/views/includes/navbar.php';
             </div>
 
             <div class="form-group">
-              <label for="cluster">Cluster Name</label>
-              <select id="cluster" name="cluster" required="" data-name="cluster" class="w-select">
-                <option value="AMSTERDAM">Amsterdam</option>
-                <option value="BELGIQUE">Belgique</option>
-                <option value="BURGPLATZ">Burgplatz</option>
-                <option value="EINHEIT">Einheit</option>
-                <option value="ITALIA">Italia</option>
-                <option value="LA MAISON">La Maison</option>
-                <option value="LOS MATADORES">Los Matadores</option>
-                <option value="OLIMPIA">Olimpia</option>
-                <option value="PORTO SANTO">Porto Santo</option>
-                <option value="SHERWOOD MANOR">Sherwood Manor</option>
-                <option value="REGENSEN">Regensen</option>
-                <option value="SHAMROCK">Shamrock</option>
-                <option value="VIKINGS">Vikings</option>
-              </select>
+              <label for="tele">Phone Number</label>
+              <input id="tele" name="tele" type="text" class="w-input" maxlength="256"  data-name="tele" placeholder="Enter user phone number" required>
             </div>
             
             <div class="form-group">
-              <label for="household">Household</label>
-              <input id="household" name="household" type="text" class="w-input" maxlength="256"  data-name="household" placeholder="Enter user household"  required>
+              <label for="email">Email</label>
+              <input id="email" name="email" type="text" class="w-input" maxlength="256"  data-name="email" placeholder="Enter user email"  required>
             </div>
 
             <div class="form-group">
-              <label for="rnum">Room Number</label>
-              <input id="rnum" name="rnum" type="text" class="w-input" maxlength="256"  data-name="Issue description" placeholder="Enter user room number" required>
+              <label for="affiliation">Affiliation</label>
+              <input id="affiliation" name="affiliation" type="text" class="w-input" maxlength="256"  data-name="affiliation" placeholder="Enter user affiliation" required>
             </div>
 
             <div class="form-group">

@@ -20,7 +20,7 @@ class ResidentController extends UserController {
             'title' => 'Add Resident Page',
             'rid' => '',
             'fname' => '',
-            'lanme' => '',
+            'lname' => '',
             'cluster' => '',
             'household' => '',
             'rnum' => '',

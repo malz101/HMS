@@ -31,7 +31,7 @@
     </div>
 
     <div class="filter-bar-group">
-        <form action="<?php echo URLROOT; ?>/issue/searchforIssue" method="POST" class="filter-form">
+        <form action="<?php echo URLROOT; ?>/issue/searchForIssue" method="POST" class="filter-form">
         <div class="filter-form-group">
             <label for="search-box">Search</label>
             <input id="search-box" type="text" name="key" placeholder="Enter issue Id" class="search-box" maxlength="35">

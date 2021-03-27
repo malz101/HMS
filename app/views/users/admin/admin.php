@@ -12,20 +12,6 @@ require APPROOT . '/views/includes/navbar.php';
       </div>
     </a>
 
-    <a href="<?php echo URLROOT; ?>/issue/updateIssue" class="function-card w-inline-block">
-      <div class="funcard">
-        <img src="<?php echo URLROOT ?>/public/images/update.svg" alt="">
-        <h3 class="white">Update issue Progress</h3>
-      </div>
-    </a>
-
-    <a href="<?php echo URLROOT; ?>/feedback/viewFeedback" class="function-card w-inline-block">
-      <div class="funcard">
-        <img src="<?php echo URLROOT ?>/public/images/view_reviews.svg" alt="">
-        <h3 class="white">View Feedback</h3>
-      </div>
-    </a>
-
     <a href="#" class="function-card w-inline-block">
       <div class="funcard">
         <img src="<?php echo URLROOT ?>/public/images/date_picker.svg" alt="">
@@ -47,7 +33,7 @@ require APPROOT . '/views/includes/navbar.php';
       </div>
     </a>
 
-    <a href="<?php echo URLROOT; ?>/mtnpersonnel/addMaintenance" class="function-card w-inline-block">
+    <a href="<?php echo URLROOT; ?>/mtn/addMtnPersonnel" class="function-card w-inline-block">
       <div class="funcard">
         <img src="<?php echo URLROOT ?>/public/images/add_user.svg" alt="">
         <h3 class="white">Add Maintenance Personnel</h3>

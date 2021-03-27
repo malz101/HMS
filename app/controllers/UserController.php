@@ -82,7 +82,6 @@ class UserController extends Controller {
         unset($_SESSION['user_id']);
         unset($_SESSION['user_type']);
         header('location:' . URLROOT . '/page/index');
-        echo 'stopep';
     }
 
 }

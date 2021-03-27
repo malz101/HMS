@@ -59,8 +59,7 @@ class IssueController extends Controller {
     }//END function logIssue
 
 
-
-    public function viewByResID(){
+    public function viewAll(){
         $data=[];
         $data = array(
             'issues' => array(),
@@ -77,27 +76,36 @@ class IssueController extends Controller {
             $data['status'] = trim($_POST['status']);
             $data['classification'] = trim($_POST['classification']);
 
-            $data['issues'] = $this->issueModel->viewAllIssuesbyFilter($data);
-
-            //Check if all errors are empty
-            if(empty($data['issues'])){
-                $data['message'] = "empty";
-                $this->view('users/view-all-issues copy',$data);
-            }else{
-                $this->view('users/view-all-issues copy',$data);
+            switch($_SESSION['user_type']){
+                case 'admin': 
+                    $data['issues'] = $this->issueModel->viewAllIssuesbyFilter($data);
+                    break;
+                case 'resident':
+                    $data['issues'] = $data['issues'] = $this->issueModel->viewByResIDFilter($data, $_SESSION['user_id'] );
+                    break;
+                case 'mtnpersonnel':
+                    break;
             }
+
+
+            $this->helperViewAllIssues($data);
         }//END Check for POST
         else{
-            $data['issues'] = $this->issueModel->viewAllIssues();
-
-            if(empty($data['issues'])){
-                $data['message'] = "empty";
-                $this->view('users/view-all-issues copy',$data);
-            }else{
-                $this->view('users/view-all-issues copy',$data);
+            switch($_SESSION['user_type']){
+                case 'admin': 
+                    $data['issues'] = $this->issueModel->viewAllIssues();
+                    break;
+                case 'resident':
+                    $data['issues'] = $this->issueModel->viewByResID($_SESSION['user_id']);
+                    break;
+                case 'mtnpersonnel':
+                    break;
             }
+
+            $this->helperViewAllIssues($data);
         }
     }//END ViewAll
+
 
     public function viewIssue($iid){
         $data=[];
@@ -125,7 +133,7 @@ class IssueController extends Controller {
         }
     }
     
-    public function updateIssue($iid){
+    public function updateIssueStatus($iid){
         $data=[];
         $data = array(
             'title' => 'Log Issue Page',
@@ -225,45 +233,6 @@ class IssueController extends Controller {
     }
 
 
-    public function viewAll(){
-        $data=[];
-        $data = array(
-            'issues' => array(),
-            'status' => '',
-            'classification' => '',
-            'message' => ''
-        );
-
-        if($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-            //Sanitize post data
-            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-
-            $data['status'] = trim($_POST['status']);
-            $data['classification'] = trim($_POST['classification']);
-
-            $data['issues'] = $this->issueModel->viewAllIssuesbyFilter($data);
-
-            //Check if all errors are empty
-            if(empty($data['issues'])){
-                $data['message'] = "empty";
-                $this->view('users/view-all-issues copy',$data);
-            }else{
-                $this->view('users/view-all-issues copy',$data);
-            }
-        }//END Check for POST
-        else{
-            $data['issues'] = $this->issueModel->viewAllIssues();
-
-            if(empty($data['issues'])){
-                $data['message'] = "empty";
-                $this->view('users/view-all-issues copy',$data);
-            }else{
-                $this->view('users/view-all-issues copy',$data);
-            }
-        }
-    }//END ViewAll
-
     public function searchForIssue(){
         $data=[];
         $data = array(
@@ -285,25 +254,42 @@ class IssueController extends Controller {
                 $data['key'] = "%";
             }
 
-            $data['issues'] = $this->issueModel->searchForIssue($data['key']);
-
-            //Check if all errors are empty
-            if(empty($data['issues'])){
-                $data['message'] = "empty";
-                $this->view('users/view-all-issues copy',$data);
-            }else{
-                $this->view('users/view-all-issues copy',$data);
+            switch($_SESSION['user_type']){
+                case 'admin': 
+                    $data['issues'] = $this->issueModel->searchForIssue($data['key']);
+                    break;
+                case 'resident':
+                    $data['issues'] = $this->issueModel->searchForIssuebyResID($data['key'], $_SESSION['user_id']);
+                    break;
+                case 'mtnpersonnel':
+                    break;
             }
+            
+
+            $this->helperViewAllIssues($data);
         }//END Check for POST
         else{
-            $data['issues'] = $this->issueModel->viewAllIssues();
-
-            if(empty($data['issues'])){
-                $data['message'] = "empty";
-                $this->view('users/view-all-issues copy',$data);
-            }else{
-                $this->view('users/view-all-issues copy',$data);
+            switch($_SESSION['user_type']){
+                case 'admin': 
+                    $data['issues'] = $this->issueModel->viewAllIssues();
+                    break;
+                case 'resident':
+                    $data['issues'] = $this->issueModel->viewByResID($_SESSION['user_id']);
+                    break;
+                case 'mtnpersonnel':
+                    break;
             }
+            
+            $this->helperViewAllIssues($data);
+        }
+    }
+
+    private function helperViewAllIssues($data){
+        if(empty($data['issues'])){
+            $data['message'] = "empty";
+            $this->view('users/view-all-issues copy',$data);
+        }else{
+            $this->view('users/view-all-issues copy',$data);
         }
     }
 }
