@@ -113,13 +113,13 @@ UNLOCK TABLES;
 --
 DROP TABLE IF EXISTS `resident`;
 CREATE TABLE `resident` (
-  `IDnum` varchar(10) NOT NULL,
+  `id_num` varchar(10) NOT NULL,
   `first_name` varchar(20) NOT NULL,
   `last_name` varchar(20) NOT NULL,
   `cluster_name` varchar(20) NOT NULL,
   `household` varchar(1) NOT NULL,
   `room_num` varchar(4) DEFAULT NULL,
-  PRIMARY KEY (`IDnum`)
+  PRIMARY KEY (`id_num`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --

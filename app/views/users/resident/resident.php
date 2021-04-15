@@ -5,10 +5,10 @@ require APPROOT . '/views/includes/navbar.php';
 <div class="section">
   <div class="function-section">
     <div class="functions">
-      <a  href="<?php echo URLROOT; ?>/issue/logIssue" id="log-issue" class="function-card w-inline-block">
+      <a  href="<?php echo URLROOT; ?>/resident/logIssue" id="log-issue" class="function-card w-inline-block">
         <h3 class="white funcard">Log new issue</h3>
       </a>
-      <a href="<?php echo URLROOT; ?>/issue/viewAll" id="track-issue" class="function-card w-inline-block">
+      <a href="<?php echo URLROOT; ?>/user/viewAll" id="track-issue" class="function-card w-inline-block">
         <h3 class="white funcard">View All Your Issues</h3>
       </a>
 

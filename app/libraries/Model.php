@@ -1,7 +1,7 @@
 <?php
-class Model{
-    protected $db;
+abstract class Model{
+    protected static $db =  'Database';
     public function __construct() {
-        $this->db = new Database;
+        //$this->db = new Database;
     }
 }

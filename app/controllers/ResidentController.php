@@ -2,6 +2,7 @@
 require_once 'UserController.php';
 class ResidentController extends UserController {
     public function __construct() {
+        parent::__construct();
         $this->residentModel = $this->model('Resident');
     }
 
@@ -15,51 +16,109 @@ class ResidentController extends UserController {
         $this->view('/users/resident/resident',$data);
     }
 
-    public function addResident(){
+    public function logIssue(){
+        $data=[];
         $data = array(
-            'title' => 'Add Resident Page',
+            'title' => 'Log Issue Page',
             'rid' => '',
-            'fname' => '',
-            'lname' => '',
-            'cluster' => '',
-            'household' => '',
-            'rnum' => '',
+            'subject' => '',
+            'classification'=>'',
+            'description' => '',
             'message' => '',
-            'idError' => '',
-            'householdError' => '',
-            'roomNumberError' => '',
-            'addUserError' => ''
+            'subjectError' => '',
+            'descriptionError' => '',
+            'logIssueError' => ''
         );
 
-
+        //Check for post
         if($_SERVER['REQUEST_METHOD'] == 'POST') {
+
             //Sanitize post data
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-            
-            $data['rid'] = trim($_POST['rid']);
-            $data['fname'] = trim($_POST['fname']);
-            $data['lname'] = trim($_POST['lname']);
-            $data['cluster'] = trim($_POST['cluster']);
-            $data['household'] = trim($_POST['household']);
-            $data['rnum']= trim($_POST['rnum']);
-            $data['password'] = trim($_POST['password']);
 
-            //Validate id
-            if (!empty($data['rid']) && !empty($data['password'])) {
-                $result = $this->residentModel->add($data);
+            $data['rid'] = $_SESSION['user_id'];
+            $data['subject'] = trim($_POST['subject']);
+            $data['classification'] = trim($_POST['classification']);
+            $data['description'] = trim($_POST['description']);
 
-                if($result){
-                    $data['message'] = "Resident successfully added.";
-                    $this->view('users/admin/add-resident',$data);
+            //Validate subject
+            if (empty($data['subject'])) {
+                $data['subjectError'] = 'Please enter a subject.';
+            }
+
+            //Validate description
+            if (empty($data['description'])) {
+                $data['descriptionError'] = 'Please enter an issue description.';
+            }
+
+
+            //Check if all errors are empty
+            if (empty($data['descriptionError'])  && empty($data['subjectError'])) {
+                $result = $this->residentModel::addIssue($data);
+
+                if(!empty($result)){
+                    $data['message'] = "Issue is successfully logged.";
+                    $this->view('users/resident/log-issue',$data);
                 }
                 else{
-                    $data['addUserError'] = "An error occurred while creating user.";
-                
-                    $this->view('users/admin/add-resident',$data);
+                    $data['logIssueError'] = "Issue log was unsuccessful.";
+                    $this->view('users/resident/log-issue',$data);
                 }
             }
-            $data['addUserError'] = "An error occurred while creating user.";
+            $data['logIssueError'] = "Issue log was unsuccessful.";
         }//END Check for POST
-        $this->view('users/admin/add-resident',$data);
-    }//END function addResident
+        $this->view('users/resident/log-issue',$data);
+    }//END function logIssue
+
+
+
+
+    public function logFeedback($iid){
+        $data=[];
+        $data = array(
+            'title' => 'View Isuue Page',
+            'iid' => $iid[0],
+            'issue' => array(),
+            'feedbacks'=>'',
+            'commentError' => '',
+            'giveFeedbackError' => '',
+            'feedback-message' => '',
+            'message' => ''
+        );
+
+        //Check for post
+        if($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            //Sanitize post data
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+            $data['comment'] = trim($_POST['comment']);
+            $data['uid'] = $_SESSION['user_id'];
+
+
+            //validate comment
+            if (empty($data['comment'])) {
+                $data['commentError'] = 'Please enter an a comment.';
+            }
+
+            //Check if all errors are empty
+            if (empty($data['commentError'])) {
+                $result = $this->residentModel::addFeedback($data);
+                $issue = $this->userModel::getIssue($data['iid']);
+                $data['issue'] = $this->attachAllDetails(array($issue))[0];
+                if($result){
+                    $data['feedback-message'] = "Feedback successfully added.";
+                    $this->view('users/view-issue',$data);
+                }
+                else{
+                    $data['giveFeedbackError'] = "Feedback log was unsuccessful.";
+                    $this->view('users/view-issue',$data);
+                }
+            }
+            $data['giveFeedbackError'] = "Feedback log was unsuccessful.";
+        }//END Check for POST
+        $this->view('users/view-issue',$data);
+    }//END function resSubIssue
+
+
 }

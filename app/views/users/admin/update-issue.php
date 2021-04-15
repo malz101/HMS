@@ -10,7 +10,7 @@ require APPROOT . '/views/includes/navbar.php';
         <h2>Az Preston Hall Maintenance System</h2>
         <h5>Update Issue Status</h5>
         <div class="form w-form">
-          <form action="<?php echo URLROOT; ?>/issue/updateIssue" method="POST" id="update-issue-form" name="update-issue-form" data-name="Update Issue Form" class="w-clearfix">
+          <form action="<?php echo URLROOT; ?>/admin/updateIssue" method="POST" id="update-issue-form" name="update-issue-form" data-name="Update Issue Form" class="w-clearfix">
             <label for="name">Issue ID</label>
             <input id="iid" name="iid" type="text" class="w-input" maxlength="256"  data-name="Issue ID" placeholder="Issue ID"  required="">
             

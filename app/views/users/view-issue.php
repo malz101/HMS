@@ -1,29 +1,31 @@
 <?php
 require APPROOT . '/views/includes/header.php';
 require APPROOT . '/views/includes/navbar.php';
-$issue = $data['issue'][0];
-$feedbacks = $data['issue'][1];
+$issue = $data['issue']['issue'];
+$mtn = $data['issue']['mtn'];
+$admin = $data['issue']['admin'];
+$owner = $data['issue']['owner'];
+$feedbacks = $issue->getFeedbacks();
 ?>
 <div id='issue'>
     <div class='container hero-card'>
         <div class='header'>
-            <h1 class="issue-subject"><?php echo $issue['subject']?></h1>
-            <h3>Issue <?php echo $issue['issueID']?></h3>
+            <h1 class="issue-subject"><?php echo $issue->getSubject()?></h1>
+            <h3>Issue <?php echo $issue->getID()?></h3>
         </div>
         <div class='issue-body'>
-            <p class='description'><?php echo $issue['description']?></p>
-            <p class='creation-date'>> Issue created on <?php echo $issue['date']?> by <?php echo $issue['rfname']?> <?php echo $issue['rlname']?> (<?php echo $issue['HMemberIDnum']?>)</p>
-            <p class='updated-date'>> Last updated on <?php echo $issue['updated_on']?> by <?php echo ($issue['afname'].' '.$issue['alname']);?></p>
+            <p class='description'><?php echo $issue->getDescription()?></p>
+            <p class='creation-date'>> Issue created on <?php echo $issue->getDate()?> by <?php echo $owner->getFirstName()?> <?php echo $owner->getLastName()?> (<?php echo $owner->getID()?>)</p>
+            <p class='updated-date'>> Last updated on <?php echo $issue->getUpdatedOn()?> by <?php echo ($admin->getFirstName().' '.$admin->getLastName());?></p>
         </div>
 
         <div class="feedback-section form-card">
             <h4>Feedbacks</h4>
             <div class="issue-Feedbacks">
                 <?php foreach($feedbacks as $feedback):?>
-                    <p class="feedback"><?php echo $feedback['comment']?></p>
-                        <p class="feedback-meta-data">>Logged on: <?php echo $feedback['date']?></p>
-                        <p class="feedback-meta-data"><?php if($feedback['isRead']==1){echo '> Read';}?>
-                        </p>
+                    <p class="feedback"><?php echo $feedback->getComment()?></p>
+                        <p class="feedback-meta-data">>Logged on: <?php echo $feedback->getDate()?></p>
+                        <p class="feedback-meta-data"><?php if($feedback->getRead()==1){echo '> Read';}?></p>
                     </p>
                 <?php endforeach?>
             </div>

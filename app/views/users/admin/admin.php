@@ -5,7 +5,7 @@ require APPROOT . '/views/includes/navbar.php';
 <div class="function-section">
   <div class="functions">
 
-    <a href="<?php echo URLROOT; ?>/issue/viewAll" class="function-card">
+    <a href="<?php echo URLROOT; ?>/user/viewAll" class="function-card">
       <div class="funcard">
         <img src="<?php echo URLROOT ?>/public/images/text_files.svg" alt="">
         <h3 class="white">View All Issues</h3>
@@ -26,14 +26,14 @@ require APPROOT . '/views/includes/navbar.php';
       </div>
     </a>
 
-    <a href="<?php echo URLROOT; ?>/resident/addResident" class="function-card w-inline-block">
+    <a href="<?php echo URLROOT; ?>/admin/addResident" class="function-card w-inline-block">
       <div class="funcard">
         <img src="<?php echo URLROOT ?>/public/images/add_user.svg" alt="">
         <h3 class="white">Add Resident</h3>
       </div>
     </a>
 
-    <a href="<?php echo URLROOT; ?>/mtn/addMtnPersonnel" class="function-card w-inline-block">
+    <a href="<?php echo URLROOT; ?>/admin/addMtnPersonnel" class="function-card w-inline-block">
       <div class="funcard">
         <img src="<?php echo URLROOT ?>/public/images/add_user.svg" alt="">
         <h3 class="white">Add Maintenance Personnel</h3>

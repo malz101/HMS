@@ -1,7 +1,7 @@
 <div class="filter-bar">
     <h4>Filter by:</h4>
     <div class="filter-bar-group">
-        <form class='filter-form' action="<?php echo URLROOT; ?>/issue/viewAll" method="POST" id="filter-issues-form" name="filter-issues-form" data-name="Filter Issue Form">
+        <form class='filter-form' action="<?php echo URLROOT; ?>/user/viewAll" method="POST" id="filter-issues-form" name="filter-issues-form" data-name="Filter Issue Form">
             <div class="filter-form-group">
                 <label>Status</label>
                 <select id="status" name="status" required="" data-name="Status" class="w-select" onChange="this.form.submit()">
@@ -31,7 +31,7 @@
     </div>
 
     <div class="filter-bar-group">
-        <form action="<?php echo URLROOT; ?>/issue/searchForIssue" method="POST" class="filter-form">
+        <form action="<?php echo URLROOT; ?>/user/searchForIssue" method="POST" class="filter-form">
         <div class="filter-form-group">
             <label for="search-box">Search</label>
             <input id="search-box" type="text" name="key" placeholder="Enter issue Id" class="search-box" maxlength="35">

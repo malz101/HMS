@@ -22,14 +22,13 @@ require APPROOT . '/views/includes/navbar.php';
           <tbody>
 
             <?php foreach ($data['issues'] as $issue): ?>
-              <tr id=".<?php echo $issue['issueID']?>" data-href="<?php echo URLROOT ?>/issue/viewIssue/<?php echo $issue['issueID']?>">
-                <td class="issue-id-column"><?php echo $issue['issueID']?></td>
-                <td><?php echo $issue['subject']?></td>
-                <td><?php echo $issue['classification']?></td>
-                <td><?php echo $issue['status'] ?></td>
-                <td><?php echo ($issue['mtnfname'].' '.$issue['mtnlname']);?>
-                </td>
-                <td><?php echo date($issue['date'])?></td>
+              <tr id=".<?php echo $issue['issue']->getID()?>" data-href="<?php echo URLROOT ?>/user/viewIssue/<?php echo $issue['issue']->getID()?>">
+                <td class="issue-id-column"><?php echo $issue['issue']->getID()?></td>
+                <td><?php echo $issue['issue']->getSubject()?></td>
+                <td><?php echo $issue['issue']->getClassification()?></td>
+                <td><?php echo $issue['issue']->getStatus() ?></td>
+                <td><?php echo ($issue['mtn']->getFirstName().' '.$issue['mtn']->getLastName());?></td>
+                <td><?php echo date($issue['issue']->getDate())?></td>
               </tr>
             <?php endforeach ?>
           </tbody>

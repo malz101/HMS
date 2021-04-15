@@ -1,151 +1,220 @@
 <?php
+require_once 'MtnPersonnel.php';
+require_once 'Feedback.php';
+
 class Issue extends Model{
+    private $issueID;
+    private $date;
+    private $HMemberIDnum;
+    private $subject;
+    private $classification;
+    private $assigned_to;
+    private $status;
+    private $description;
+    private $last_updated_by;
+    private $updated_on;
+    private $feedbacks;
+
     public function __construct(){
+        $NoOfArguments = func_num_args(); //return no of arguments passed in function
+        $arguments = func_get_args();
+
+        switch ($NoOfArguments) {
+            case 0:
+                $this->construct1();
+                break;
+            case 4:
+                $this->construct2($arguments[0],$arguments[1], $arguments[2],$arguments[3]);
+                break;
+            default:
+                echo "Invalid No of arguments passed";
+                break;
+        }
+    }
+
+    private function construct1(){
         parent::__construct();
     }
 
-    public function addIssue($data){
-        $this->db->query('INSERT INTO issues (HMemberIDnum,subject, classification, date, description) 
+    private function construct2($rid,$subject,$classification,$description){
+        parent::__construct();
+        $date = date("Y-m-d"); #in format "Y-m-d ", ie: "2019-11-24 "
+        $this->date = $date;
+        $this->HMemberIDnum = $rid;
+        $this->subject = $subject;
+        $this->classification = $classification;
+        $this->description = $description;
+    }
+
+    public function getID(){
+        return $this->issueID;
+    }
+
+    public function getOwnerID(){
+        return $this->HMemberIDnum;
+    }
+
+    public function getSubject(){
+        return $this->subject;
+    }
+
+    public function getClassification(){
+        return $this->classification;
+    }
+
+    public function getAssigned(){
+        return $this->assigned_to;
+    }
+
+    public function getStatus(){
+        return $this->status;
+    }
+
+    public function getDate(){
+        return $this->date;
+    }
+
+    public function getDescription(){
+        return $this->description;
+    }
+
+    public function getLastUpdatedBy(){
+        return $this->last_updated_by;
+    }
+
+    public function getUpdatedOn(){
+        return $this->updated_on;
+    }
+
+    public function getFeedbacks(){
+        return $this->feedbacks;
+    }
+
+    public function setFeedbacks($feedbacks){
+        $this->feedbacks = $feedbacks;
+    }
+
+
+    
+/*==============================CLASS METHODS================================*/
+    public static function add($issue): bool{
+        $conn = new self::$db();
+        $conn->query('INSERT INTO issues (HMemberIDnum,subject, classification, date, description) 
                             VALUES (:HMemberIDnum,:subject, :classification, :date, :description);');
 
 
-        $this->db->bind(':HMemberIDnum', $data['rid']);
-        $this->db->bind(':subject', $data['subject']);
-        $this->db->bind(':classification', $data['classification']);
-        $date = date("Y-m-d"); #in format "Y-m-d ", ie: "2019-11-24 "
-        $this->db->bind(':date', $date);
-        $this->db->bind(':description', $data['description']);
+        $conn->bind(':HMemberIDnum', $issue->getOwnerID());
+        $conn->bind(':subject', $issue->getSubject());
+        $conn->bind(':classification',$issue->getClassification());
+        $conn->bind(':date', $issue->getDate());
+        $conn->bind(':description', $issue->getDescription());
 
-        if ($this->db->execute()) {
+        if ($conn->execute()) {
             return true;
         }
         return false;
     }
 
-    public function viewByResID($HMemberIDnum){
-
-        $this->db->query('SELECT i.issueID, i.date, i.subject, i.classification, i.assigned_to, 
-                                    i.status, i.description, mtn.first_name as mtnfname, 
-                                    mtn.last_name as mtnlname 
-                            FROM issues i left join mtnpersonnel mtn on i.assigned_to=mtn.id_num WHERE i.HMemberIDnum = :HMemberIDnum;');
-        $this->db->bind(':HMemberIDnum', $HMemberIDnum);
-        $issues = $this->db->resultSet();
+    public static function getIssuesResByID($HMemberIDnum): array{
+        $conn = new self::$db();
+        $conn->query('SELECT * FROM issues WHERE HMemberIDnum = :HMemberIDnum;');
+        $conn->bind(':HMemberIDnum', $HMemberIDnum);
+        $issues = $conn->resultSet(__CLASS__);
         return $issues;
     } #returns an associative list of issues reported by a hall member using the hall member's ID number 
 
-    public function viewByResIDFilter($filter, $HMemberIDnum){
 
-        $this->db->query('SELECT i.issueID, i.date, i.subject, i.classification, i.assigned_to, 
-                                    i.status, i.description, mtn.first_name as mtnfname, 
-                                    mtn.last_name as mtnlname 
-                            FROM issues i left join mtnpersonnel mtn on i.assigned_to=mtn.id_num 
-                            WHERE i.HMemberIDnum = :HMemberIDnum and i.classification like :classification and i.status like :status;');
+    public static function getIssueByResIDFilter($filter, $HMemberIDnum): array{
+        $conn = new self::$db();
+        $conn->query('SELECT * FROM issues 
+                            WHERE HMemberIDnum = :HMemberIDnum and classification like :classification and status like :status;');
         
-        $this->db->bind(':HMemberIDnum', $HMemberIDnum);
-        $this->db->bind(':classification', $filter['classification']);
-        $this->db->bind(':status', $filter['status']);
-        $issues = $this->db->resultSet();
+        $conn->bind(':HMemberIDnum', $HMemberIDnum);
+        $conn->bind(':classification', $filter['classification']);
+        $conn->bind(':status', $filter['status']);
+        $issues = $conn->resultSet(__CLASS__);
         return $issues;
     } #returns an associative list of issues reported by a hall member using the hall member's ID number 
     
-    public function updateIssue($data){
-        $this->db->query('UPDATE issues SET status = :status WHERE issueID = :issueID;');
+    public static function updateIssue($data){
+        $conn = new self::$db();
+        $conn->query('UPDATE issues SET status = :status WHERE issueID = :issueID;');
 
-        $this->db->bind(':status', $data['status']);
-        $this->db->bind(':issueID', $data['iid']);
+        $conn->bind(':status', $data['status']);
+        $conn->bind(':issueID', $data['iid']);
 
-        if ($this->db->execute()) {
+        if ($conn->execute()) {
             return true;
         }
         return false;
     }
 
-    public function viewAllIssues(){
-        $this->db->query('SELECT i.issueID, i.date, i.subject, i.classification, i.assigned_to, 
-                                    i.status, i.description, mtn.first_name as mtnfname, 
-                                    mtn.last_name as mtnlname 
-                            FROM issues i left join mtnpersonnel mtn on i.assigned_to=mtn.id_num;');
+    public static function getAllIssues(): array{
+        $conn = new self::$db();
+        $conn->query('SELECT * FROM issues;');
 
-        $issues = $this->db->resultSet();
+        $issues = $conn->resultSet(__CLASS__);
 
         return $issues;
     }//END viewAllIssues
 
-    public function viewAllIssuesbyFilter($filter){
-        $this->db->query('SELECT i.issueID, i.date, i.subject, i.classification, i.assigned_to, 
-                                    i.status, i.description, mtn.first_name as mtnfname, 
-                                    mtn.last_name as mtnlname 
-                            FROM issues i left join mtnpersonnel mtn on i.assigned_to=mtn.id_num 
-                            where i.classification like :classification and i.status like :status;');
+    public static function getAllIssuesbyFilter($filter): array{
+        $conn = new self::$db();
+        $conn->query('SELECT * FROM issues where classification like :classification and status like :status;');
         
-        $this->db->bind(':classification', $filter['classification']);
-        $this->db->bind(':status', $filter['status']);
-        $issues = $this->db->resultSet();
+        $conn->bind(':classification', $filter['classification']);
+        $conn->bind(':status', $filter['status']);
+        $issues = $conn->resultSet(__CLASS__);
         return $issues;
     }
 
-    public function viewIssue($iid){
-        $this->db->query('SELECT i.*, r.first_name as rfname, r.last_name as rlname,r.cluster_name, r.household, r.room_num,
-                                    mtn.first_name as mtnfname, mtn.last_name as mtnlname, a.first_name as afname, 
-                                    a.last_name as alname
-                            FROM issues i join resident r on i.HMemberIDnum=r.IDnum 
-                            left join admin a on a.id_num= i.last_updated_by
-                            left join mtnpersonnel mtn on i.assigned_to=mtn.id_num
-                            WHERE i.issueID= :iid;');
-        $this->db->bind(':iid', $iid);
-        $issue = $this->db->single();
+    public static function getIssue($iid): Issue{
+        $conn = new self::$db();
+        $conn->query('SELECT * FROM issues WHERE issueID= :iid;');
+        $conn->bind(':iid', $iid);
+        $issue = $conn->single(__CLASS__);
+        
+        $feedbacks = Feedback::loadFeedbackFromIssue($issue->getID());
+        
+        $issue->setFeedbacks($feedbacks);
         return $issue;
     }//END view Issue
 
 
-    public function addFeedback($data){
-        $this->db->query('INSERT INTO feedback (issueID, comment, sender, date) 
+    public static function addFeedback($data): bool{
+        $conn = new self::$db();
+        $conn->query('INSERT INTO feedback (issueID, comment, sender, date) 
                             VALUES (:issueID, :comment, :sender, :date);');
-        $this->db->bind(':issueID', $data['iid']);
-        $this->db->bind(':comment', $data['comment']);
-        $this->db->bind(':sender', $data['uid']);
+        $conn->bind(':issueID', $data['iid']);
+        $conn->bind(':comment', $data['comment']);
+        $conn->bind(':sender', $data['uid']);
         $date = date("Y-m-d"); #in format "Y-m-d ", ie: "2019-11-24 "
-        $this->db->bind(':date', $date);
+        $conn->bind(':date', $date);
 
-        if ($this->db->execute()) {
+        if ($conn->execute()) {
             return true;
         }else{
             return false;
         }
     }
 
-    public function getIssueFeedbacks($issueID){
-        $this->db->query('SELECT date, comment, isRead FROM feedback WHERE issueID = :issueID;');
+
+    public static function searchForIssue($key): array{
+        $conn = new self::$db();
+        $conn->query('SELECT * FROM issues WHERE issueID like :key;');
         
-        $this->db->bind(':issueID', $issueID);
-        $feedbacks = $this->db->resultSet();
-
-        return $feedbacks;
-    }
-
-
-    public function searchForIssue($key){
-        $this->db->query('SELECT i.issueID, i.date, i.subject, i.classification, i.assigned_to, 
-                                    i.status, i.description, mtn.first_name as mtnfname, 
-                                    mtn.last_name as mtnlname 
-                            FROM issues i left join mtnpersonnel mtn on i.assigned_to=mtn.id_num 
-                            where i.issueID like :key;');
-        
-        $this->db->bind(':key', $key);
-        $issues = $this->db->resultSet();
+        $conn->bind(':key', $key);
+        $issues = $conn->resultSet(__CLASS__);
         return $issues;
     }
 
-    public function searchForIssuebyResID($key, $HMemberIDnum){
-        $this->db->query('SELECT i.issueID, i.date, i.subject, i.classification, i.assigned_to, 
-                                    i.status, i.description, mtn.first_name as mtnfname, 
-                                    mtn.last_name as mtnlname 
-                            FROM issues i left join mtnpersonnel mtn on i.assigned_to=mtn.id_num 
-                            where i.HMemberIDnum = :HMemberIDnum and i.issueID like :key;');
+    public static function searchForIssuebyResID($key, $HMemberIDnum): array{
+        $conn = new self::$db();
+        $conn->query('SELECT * FROM issues WHERE HMemberIDnum = :HMemberIDnum and issueID like :key;');
         
-        $this->db->bind(':HMemberIDnum', $HMemberIDnum);
-        $this->db->bind(':key', $key);
-        $issues = $this->db->resultSet();
+        $conn->bind(':HMemberIDnum', $HMemberIDnum);
+        $conn->bind(':key', $key);
+        $issues = $conn->resultSet(__CLASS__);
         return $issues;
     }
 

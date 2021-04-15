@@ -1,34 +1,40 @@
 <?php
+require_once 'Login.php';
+require_once 'Issue.php';
 class User extends Model{
+    protected $id_num;
+    protected $first_name;
+    protected $last_name;
+    //protected $login;
+
     public function __construct(){
         parent::__construct();
     }
 
-    public function getUserAuth($id) {
-        $this->db->query('SELECT * FROM login WHERE id = :id');
-
-        //Bind value
-        $this->db->bind(':id', $id);
-
-        $row = $this->db->single();
-
-        return $row;
-
+    public function getID(){
+        return $this->id_num;
     }
 
-    //Find user by email. Email is passed in by the Controller.
-    public function findUserByEmail($email) {
-        //Prepared statement
-        $this->db->query('SELECT * FROM users WHERE email = :email');
-
-        //Email param will be binded with the email variable
-        $this->db->bind(':email', $email);
-
-        //Check if email is already registered
-        if($this->db->rowCount() > 0) {
-            return true;
-        } else {
-            return false;
-        }
+    public function getFirstName(){
+        return $this->first_name;
     }
+
+    public function getLastName(){
+        return $this->last_name;
+    }
+
+
+/*================CLASS METHODS=====================*/
+    public static function getUserAuth($id) {
+
+        $login = Login::get($id);
+
+        return $login;
+    }
+
+    public static function getIssue($iid): Issue{
+        $issue = Issue::getIssue($iid);
+        
+        return $issue;
+    }//END view Issue
 }

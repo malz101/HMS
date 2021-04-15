@@ -13,7 +13,7 @@ require APPROOT . '/views/includes/navbar.php';
         <span class="invalidFeedback"><?php echo $data['message']; ?></span>
 
         <div class="form w-form">
-          <form action="<?php echo URLROOT; ?>/mtn/addMtnPersonnel" method="POST" id="add-resident-form" name="add-resident-form" data-name="Add Resident Form" class="w-clearfix">
+          <form action="<?php echo URLROOT; ?>/admin/addMtnPersonnel" method="POST" id="add-resident-form" name="add-resident-form" data-name="Add Resident Form" class="w-clearfix">
             <div class="form-group">
               <label for="mid">ID Number</label> 
               <input id="mid" name="mid" type="text" class="w-input" maxlength="256"  data-name="ID number" placeholder="Enter user id number" required>
@@ -47,7 +47,7 @@ require APPROOT . '/views/includes/navbar.php';
 
             <div class="form-group">
               <label for="password">Password</label> 
-              <input id="password" name="password" type="text" class="w-input" maxlength="256"  data-name="Password" placeholder="Enter user password" required>
+              <input id="password" name="password" type="password" class="w-input" maxlength="256"  data-name="Password" placeholder="Enter user password" required>
             </div>
 
             <h6>All Fields are Mandatory</h6>
