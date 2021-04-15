@@ -117,7 +117,7 @@ class Issue extends Model{
 
     public static function getIssuesResByID($HMemberIDnum): array{
         $conn = new self::$db();
-        $conn->query('SELECT * FROM issues WHERE HMemberIDnum = :HMemberIDnum;');
+        $conn->query('SELECT * FROM issues WHERE HMemberIDnum = :HMemberIDnum ORDER BY date DESC;');
         $conn->bind(':HMemberIDnum', $HMemberIDnum);
         $issues = $conn->resultSet(__CLASS__);
         return $issues;
@@ -127,7 +127,8 @@ class Issue extends Model{
     public static function getIssueByResIDFilter($filter, $HMemberIDnum): array{
         $conn = new self::$db();
         $conn->query('SELECT * FROM issues 
-                            WHERE HMemberIDnum = :HMemberIDnum and classification like :classification and status like :status;');
+                            WHERE HMemberIDnum = :HMemberIDnum and classification like :classification and status like :status
+                            ORDER BY date DESC;');
         
         $conn->bind(':HMemberIDnum', $HMemberIDnum);
         $conn->bind(':classification', $filter['classification']);
@@ -151,7 +152,7 @@ class Issue extends Model{
 
     public static function getAllIssues(): array{
         $conn = new self::$db();
-        $conn->query('SELECT * FROM issues;');
+        $conn->query('SELECT * FROM issues ORDER BY date DESC;');
 
         $issues = $conn->resultSet(__CLASS__);
 
@@ -160,7 +161,8 @@ class Issue extends Model{
 
     public static function getAllIssuesbyFilter($filter): array{
         $conn = new self::$db();
-        $conn->query('SELECT * FROM issues where classification like :classification and status like :status;');
+        $conn->query('SELECT * FROM issues where classification like :classification and status like :status
+                        ORDER BY date DESC;');
         
         $conn->bind(':classification', $filter['classification']);
         $conn->bind(':status', $filter['status']);
@@ -201,7 +203,8 @@ class Issue extends Model{
 
     public static function searchForIssue($key): array{
         $conn = new self::$db();
-        $conn->query('SELECT * FROM issues WHERE issueID like :key;');
+        $conn->query('SELECT * FROM issues WHERE issueID like :key
+                        ORDER BY date DESC;');
         
         $conn->bind(':key', $key);
         $issues = $conn->resultSet(__CLASS__);
@@ -210,7 +213,8 @@ class Issue extends Model{
 
     public static function searchForIssuebyResID($key, $HMemberIDnum): array{
         $conn = new self::$db();
-        $conn->query('SELECT * FROM issues WHERE HMemberIDnum = :HMemberIDnum and issueID like :key;');
+        $conn->query('SELECT * FROM issues WHERE HMemberIDnum = :HMemberIDnum and issueID like :key
+                        ORDER BY date DESC;');
         
         $conn->bind(':HMemberIDnum', $HMemberIDnum);
         $conn->bind(':key', $key);

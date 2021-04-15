@@ -46,6 +46,12 @@ require APPROOT . '/views/includes/navbar.php';
             </div>
 
             <div class="form-group">
+              <label for="skills_desc">Skills Desciption</label>
+              <textarea id="skills_desc" name="skills_desc" class="description-field w-input" rows="6" cols="60" placeholder="Give a short description skill set..." required></textarea>
+              <span class="invalidFeedback"><?php echo $data['descriptionError']; ?></span>
+            </div>
+
+            <div class="form-group">
               <label for="password">Password</label> 
               <input id="password" name="password" type="password" class="w-input" maxlength="256"  data-name="Password" placeholder="Enter user password" required>
             </div>

@@ -56,8 +56,8 @@ class Admin extends User{
     }
 
     public static function addMtnPersonnel($data):bool{
-        $mtn = new MtnPersonnel($data['mid'],$data['fname'],$data['lname'],
-                                        $data['tele'],$data['email'],$data['affiliation']);
+        $mtn = new MtnPersonnel($data['mid'],$data['fname'],$data['lname'],$data['tele'],
+                                $data['email'],$data['affiliation'],$data['skills_desc']);
         return MtnPersonnel::add($mtn,$data['password']);
     }
 }

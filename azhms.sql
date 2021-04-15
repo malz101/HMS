@@ -146,6 +146,7 @@ CREATE TABLE `mtnpersonnel` (
   `tele` varchar(10) NOT NULL,
   `email` varchar(100) NOT NULL,
   `affiliation` varchar(100) NOT NULL,
+  `skills_desc` varchar(1000) NOT NULL
   PRIMARY KEY (`id_num`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -153,8 +154,8 @@ CREATE TABLE `mtnpersonnel` (
 -- Dumping data for table `mtnpersonnel`
 --
 LOCK TABLES `mtnpersonnel` WRITE;
-INSERT INTO `mtnpersonnel` VALUES ('720111111','Javier','Williams','8761234567','jw@gmail.com','UWI');
-INSERT INTO `mtnpersonnel` VALUES ('720111112','Peter','Phillips','8768763456','pp@outlook.com','UWI');
+INSERT INTO `mtnpersonnel` VALUES ('720111111','Javier','Williams','8761234567','jw@gmail.com','UWI','Plumber, Electrician');
+INSERT INTO `mtnpersonnel` VALUES ('720111112','Peter','Phillips','8768763456','pp@outlook.com','UWI','All Rounder');
 UNLOCK TABLES;
 
 -- Dump completed on 2019-11-27 20:42:13

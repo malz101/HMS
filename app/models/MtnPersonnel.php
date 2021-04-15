@@ -4,6 +4,7 @@ class MtnPersonnel extends User{
     private $tele;
     private $email;
     private $affiliation;
+    private $skills_desc;
 
     public function __construct(){
         $NoOfArguments = func_num_args(); //return no of arguments passed in function
@@ -13,9 +14,9 @@ class MtnPersonnel extends User{
             case 0:
                 $this->construct1();
                 break;
-            case 6:
+            case 7:
                 $this->construct2($arguments[0],$arguments[1], $arguments[2],$arguments[3],
-                                    $arguments[4],$arguments[5]);
+                                    $arguments[4],$arguments[5], $arguments[6]);
                 break;
             default:
                 echo "Invalid No of arguments passed";
@@ -27,14 +28,15 @@ class MtnPersonnel extends User{
         parent::__construct();
     }
 
-    private function construct2($mid,$fname,$lname,$tele,$email,$affiliation){
+    private function construct2($mid,$fname,$lname,$tele,$email,$affiliation,$skills_desc){
         parent::__construct();
         $this->id_num = $mid;
         $this->first_name = $fname;
         $this->last_name = $lname;
         $this->tele = $tele;
         $this->email = $email;
-        $this->affiliation = $affiliation; 
+        $this->affiliation = $affiliation;
+        $this->skills_desc = $skills_desc;  
     }
 
     public function getTele(){
@@ -49,13 +51,17 @@ class MtnPersonnel extends User{
         return $this->affiliation;
     }
 
+    public function getSkillsDesc(){
+        return $this->skills_desc;
+    }
+
 
 /*=================CLASS METHODS===================*/
     public static function add($mtnpersonnel,$password): bool{
         $conn = new self::$db();
         //query to insert into resident table
-        $conn->query('INSERT INTO mtnpersonnel (id_num, first_name, last_name, tele, email, affiliation) 
-                            VALUES (:id_num, :fname, :lname, :tele, :email, :affiliation);');
+        $conn->query('INSERT INTO mtnpersonnel (id_num, first_name, last_name, tele, email, affiliation, skills_desc) 
+                            VALUES (:id_num, :fname, :lname, :tele, :email, :affiliation, :skills_desc);');
         
         $conn->bind(':id_num', $mtnpersonnel->getID());
         $conn->bind(':fname', $mtnpersonnel->getFirstName());
@@ -63,6 +69,7 @@ class MtnPersonnel extends User{
         $conn->bind(':tele', $mtnpersonnel->getTele());
         $conn->bind(':email', $mtnpersonnel->getEmail());
         $conn->bind(':affiliation', $mtnpersonnel->getAffliation());
+        $conn->bind(':skills_desc', $mtnpersonnel->getSkillsDesc());
 
         if ($conn->execute()==false) {
             return false;

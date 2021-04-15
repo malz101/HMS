@@ -68,11 +68,13 @@ class AdminController extends UserController {
             'tele' => '',
             'email' => '',
             'affiliation' => '',
+            'skills_desc' => '',
             'message' => '',
             'idError' => '',
             'teleError' => '',
             'emailError' => '',
             'affiliationError' => '',
+            'descriptionError' => '',
             'addUserError' => ''
         );
 
@@ -88,6 +90,7 @@ class AdminController extends UserController {
             $data['email'] = trim($_POST['email']);
             $data['affiliation']= trim($_POST['affiliation']);
             $data['password'] = trim($_POST['password']);
+            $data['skills_desc'] = trim($_POST['skills_desc']);
 
             //Validate id
             if (!empty($data['mid']) && !empty($data['password'])) {
