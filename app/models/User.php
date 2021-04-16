@@ -32,9 +32,4 @@ class User extends Model{
         return $login;
     }
 
-    public static function getIssue($iid): Issue{
-        $issue = Issue::getIssue($iid);
-        
-        return $issue;
-    }//END view Issue
 }

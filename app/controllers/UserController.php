@@ -162,8 +162,9 @@ class UserController extends Controller {
             'mtnpersonnels' => array()
         );
 
-
-        $issue = $this->userModel::getIssue($data['iid']);
+        
+        $imodel = $this->model('Issue');
+        $issue = $imodel::getIssue($data['iid']);
         $data['issue']  = $this->attachAllDetails(array($issue))[0];
 
         if($_SESSION['user_type']=='admin'){

@@ -63,4 +63,32 @@ class MtnController extends UserController {
         $this->view('users/view-issue',$data);
     }//End updateIssue
 
+    public function viewSchedule(){
+        $data = array(
+            'slots' => array(),
+            'feedbacks' => array(),
+            'commentError' => '',
+            'giveFeedbackError' => '',
+            'feedback-message' => '',
+            'message' => '',
+            'updateMessage'=>'',
+            'updateIssueError' => '',
+        );
+
+        $rsmodel = $this->model('RepairScheduleSlot');
+        $slots = $rsmodel::loadSlotForMtn($_SESSION['user_id']);
+        $data['slots']  = $slots;
+
+        // var_dump($slots);
+        // var_dump($data['issue']);
+        if($data['slots']){
+            // var_dump($slots);
+            $this->view('users/mtnpersonnel/view-schedule',$data);
+        }
+        else{
+            $data['message'] = "empty";
+        
+            $this->view('users/mtnpersonnel/view-schedule',$data);
+        }
+    }//END viewSchedule
 }

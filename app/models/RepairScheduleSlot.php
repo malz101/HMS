@@ -68,14 +68,25 @@ class RepairScheduleSlot extends Model {
 
     }
 
-    public static function loadFeedbackFromIssue($issueID){
+    public static function loadSlotForIssue($issueID){
         $issueID = filter_var($issueID, FILTER_SANITIZE_NUMBER_INT);
         $conn = new self::$db();
-        $conn->query('SELECT * FROM feedback WHERE issueID = :issueID');
+        $conn->query('SELECT * FROM repair_schedule WHERE issueID = :issueID');
         $conn->bind(':issueID', $issueID);
 
-        $feedbacks = $conn->resultSet(__CLASS__);
-        return $feedbacks;
+        $slots = $conn->resultSet(__CLASS__);
+        return $slots;
+    }
+
+
+    public static function loadSlotForMtn($mtnID){
+        $mtnID = filter_var($mtnID, FILTER_SANITIZE_NUMBER_INT);
+        $conn = new self::$db();
+        $conn->query('SELECT * FROM repair_schedule WHERE mtnID = :mtnID');
+        $conn->bind(':mtnID', $mtnID);
+
+        $slots = $conn->resultSet(__CLASS__);
+        return $slots;
     }
 
 }

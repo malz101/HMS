@@ -1,6 +1,7 @@
 <?php
 require_once 'MtnPersonnel.php';
 require_once 'Feedback.php';
+require_once 'RepairScheduleSlot.php';
 
 class Issue extends Model{
     private $issueID;
@@ -209,8 +210,9 @@ class Issue extends Model{
         $issue = $conn->single(__CLASS__);
         
         $feedbacks = Feedback::loadFeedbackFromIssue($issue->getID());
-        
+        $slots = RepairScheduleSlot::loadSlotForIssue($issue->getID());
         $issue->setFeedbacks($feedbacks);
+        $issue->setSlots($slots);
         return $issue;
     }//END view Issue
 

@@ -6,6 +6,7 @@ $mtn = $data['issue']['mtn'];
 $admin = $data['issue']['admin'];
 $owner = $data['issue']['owner'];
 $feedbacks = $issue->getFeedbacks();
+$slots = $issue->getSlots();
 ?>
 <div id='<?php echo $issue->getID()?>' class="issue hero-section">
     <div class='container hero-card'>
@@ -17,7 +18,13 @@ $feedbacks = $issue->getFeedbacks();
             <p class='description'><?php echo $issue->getDescription()?></p>
             <p class='creation-date'>> Issue created on <?php echo $issue->getDate()?> by <?php echo $owner->getFirstName()?> <?php echo $owner->getLastName()?> (<?php echo $owner->getID()?>)</p>
             <p class='updated-date'>> Last updated on <?php echo $issue->getUpdatedOn()?> by <?php if(gettype($admin)=='object'){echo ($admin->getFirstName().' '.$admin->getLastName());}else{echo "";} ?></p>
+            <div id="schedule-times-issue">
+
+            </div>
+        
         </div>
+
+        <?php require_once 'issue-repair-schedule.php';?>
 
         <div class="feedback-section form-card">
             <h4>Feedbacks</h4>
