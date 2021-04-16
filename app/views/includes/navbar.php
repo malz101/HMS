@@ -1,4 +1,4 @@
-<div data-collapse="medium" data-animation="default" data-duration="400" class="navbar w-nav">
+<div id="nav-bar" data-collapse="medium" data-animation="default" data-duration="400" class="navbar w-nav">
   <div class="w-container">
     <nav role="navigation" class="w-nav-menu">
       <a href="#" class="navbtn w-button">Notifications</a>

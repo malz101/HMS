@@ -2,7 +2,7 @@
 require APPROOT . '/views/includes/header.php';
 require APPROOT . '/views/includes/navbar.php';
 ?>
-<div class="hero-section">
+<div id="all-issues-section" class="hero-section">
     <div class="hero-card table-container">
       <h2>AZ Preston Hall Management System</h2>
       <h3>View All Issues</h3>

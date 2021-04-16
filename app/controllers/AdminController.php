@@ -143,7 +143,8 @@ class AdminController extends UserController {
 
             //Check if all errors are empty
             if (empty($data['iidError'])) {
-                $result = $this->adminModel::updateIssue($data);
+                $model = $this->model('Issue');
+                $result = $model::updateIssue($data);
                 $data['issue'] = $this->attachAllDetails(array(Issue::getIssue($data['iid'])))[0];
                 if($result){
                     $data['updateMessage'] = "Issue successfully updated.";
@@ -158,4 +159,18 @@ class AdminController extends UserController {
         }//END Check for POST
         $this->view('users/view-issue',$data);
     }//End updateIssue
+
+
+    public function assignPersonnel($iid,$mid){
+        $imodel = $this->model('Issue');
+        $result = $imodel::assignPersonnel($iid,$mid);
+        
+        if($result){
+          $this->redirectToIssue($iid);  
+        }
+    }
+
+    private function redirectToIssue($iid){
+        header ( "Location: ".URLROOT."/user/viewIssue/".$iid);
+    }
 }

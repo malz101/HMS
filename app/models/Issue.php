@@ -222,4 +222,19 @@ class Issue extends Model{
         return $issues;
     }
 
+
+    public static function assignPersonnel($iid,$mid): bool{
+        
+        $conn = new self::$db();
+        $conn->query('UPDATE issues SET assigned_to = :mtnpersonnel WHERE issueID = :issueID;');
+       
+        $conn->bind(':mtnpersonnel', $mid);
+        $conn->bind(':issueID', intval($iid));
+
+        if ($conn->execute()) {
+            return true;
+        }
+        return false;
+    }
+
 } #class complete

@@ -105,12 +105,12 @@ class UserController extends Controller {
 
             switch($_SESSION['user_type']){
                 case 'admin':
-                    $model = $this->model('Admin'); 
+                    $model = $this->model('Issue'); 
                     $data['issues'] = $this->attachMtnPersonnel($model::getAllIssuesbyFilter($data));
                     break;
                 case 'resident':
-                    $model = $this->model('Resident'); 
-                    $data['issues'] = $data['issues'] = $this->attachMtnPersonnel($model::getIssuesbyFilter($data, $_SESSION['user_id']));
+                    $model = $this->model('Issue'); 
+                    $data['issues'] = $data['issues'] = $this->attachMtnPersonnel($model::getIssueByResIDFilter($data, $_SESSION['user_id']));
                     break;
                 case 'mtnpersonnel':
                     break;
@@ -122,12 +122,12 @@ class UserController extends Controller {
         else{
             switch($_SESSION['user_type']){
                 case 'admin':
-                    $adminmodel = $this->model('Admin');  
-                    $data['issues'] = $this->attachMtnPersonnel($adminmodel::getAllIssues());
+                    $imodel = $this->model('Issue');  
+                    $data['issues'] = $this->attachMtnPersonnel($imodel::getAllIssues());
                     break;
                 case 'resident':
-                    $rmodel = $this->model('Resident'); 
-                    $data['issues'] = $this->attachMtnPersonnel($rmodel::getIssues($_SESSION['user_id']));
+                    $imodel = $this->model('Issue'); 
+                    $data['issues'] = $this->attachMtnPersonnel($imodel::getIssuesResByID($_SESSION['user_id']));
                     break;
                 case 'mtnpersonnel':
                     break;
@@ -148,7 +148,6 @@ class UserController extends Controller {
 
 
     public function viewIssue($iid){
-        $data=[];
         $data = array(
             'iid' => $iid[0],
             'issue' => array(),
@@ -158,12 +157,18 @@ class UserController extends Controller {
             'feedback-message' => '',
             'message' => '',
             'updateMessage'=>'',
-            'updateIssueError' => ''
+            'updateIssueError' => '',
+            'mtnpersonnels' => array()
         );
 
 
         $issue = $this->userModel::getIssue($data['iid']);
         $data['issue']  = $this->attachAllDetails(array($issue))[0];
+
+        if($_SESSION['user_type']=='admin'){
+            $mmodel = $this->model('MtnPersonnel');
+            $data['mtnpersonnels'] = $mmodel::getAll();
+        }
         
         // var_dump($data['issue']);
         if(empty($data['issue']) != false){
@@ -195,8 +200,8 @@ class UserController extends Controller {
             $rmodel = $this->model('Resident');
             array_push($result,array('issue'=>$issue,
                                         'owner'=>$rmodel::get($issue->getOwnerID()),
-                                        'admin'=>$mtnmodel::get($issue->getAssigned()),
-                                        'mtn'=>$adminmodel::get($issue->getLastUpdatedBy())
+                                        'mtn'=>$mtnmodel::get($issue->getAssigned()),
+                                        'admin'=>$adminmodel::get($issue->getLastUpdatedBy())
             )); 
         }
         return $result;
@@ -226,12 +231,12 @@ class UserController extends Controller {
 
             switch($_SESSION['user_type']){
                 case 'admin':
-                    $model = $this->model('Admin');  
+                    $model = $this->model('Issue');  
                     $data['issues'] = $this->attachMtnPersonnel($model::searchForIssue($data['key']));
                     break;
                 case 'resident':
-                    $model = $this->model('Resident');  
-                    $data['issues'] = $this->attachMtnPersonnel($model::searchForIssue($data['key'], $_SESSION['user_id']));
+                    $model = $this->model('Issue');  
+                    $data['issues'] = $this->attachMtnPersonnel($model::searchForIssuebyResID($data['key'], $_SESSION['user_id']));
                     break;
                 case 'mtnpersonnel':
                     break;

@@ -11,7 +11,8 @@
     -WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
     crossorigin="anonymous"></script>
   <script src="<?php echo URLROOT ?>/public/scripts/azph_hms.js" type="text/javascript"></script>
-  <meta content="Admin" property="og:title">
+  <script src="<?php echo URLROOT ?>/public/scripts/view_issue.js" type="text/javascript"></script>
+  <!-- <meta content="Admin" property="og:title"> -->
   <meta content="width=device-width, initial-scale=1" name="viewport">
   <meta content="Webflow" name="generator">
   <link href= '<?php echo URLROOT ?>/public/css/normalize.css' rel="stylesheet" type="text/css">

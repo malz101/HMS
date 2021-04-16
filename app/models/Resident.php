@@ -116,31 +116,12 @@ class Resident extends User{
     public static function addIssue($data): bool{
         $issue = new Issue($data['rid'],$data['subject'], $data['classification'], $data['description']);
         return Issue::add($issue);
-    }
-
-
-    public static function getIssues($id_num): array{
-        $issues = Issue::getIssuesResByID($id_num);
-        return $issues;
-    } #returns an associative list of issues reported by a hall member using the hall member's ID number 
-
-
-    public static function getIssuesbyFilter($filter, $id_num): array{
-        $issues = Issue::getIssueByResIDFilter($filter,$id_num);
-        return $issues;
-    } #returns an associative list of issues reported by a hall member using the hall member's ID number 
-    
+    } 
 
 
     public static function addFeedback($data): bool{
         $feedback = new Feedback($data['iid'], $data['uid'],$data['comment']);
         return Feedback::add($feedback);
-    }
-
-
-    public static function searchForIssue($key,$id): array{
-        $issues = Issue::searchForIssuebyResID($key,$id);
-        return $issues;
     }
 
 } #completed class

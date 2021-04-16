@@ -109,4 +109,14 @@ class MtnPersonnel extends User{
         }
         return $mtnpersonnel;
     } #Completed function, returns a resident object when the resident is found in the database given the resident's id number or FALSE if the resident is not found
+
+    public static function getAll(): array{
+        $conn = new self::$db();
+        $conn->query('SELECT * FROM mtnpersonnel');
+
+        $mtnpersonnel = $conn->resultSet(__CLASS__);
+
+        return $mtnpersonnel;
+    } #Completed function, returns a resident object when the resident is found in the database given the resident's id number or FALSE if the resident is not found
+
 } #completed class

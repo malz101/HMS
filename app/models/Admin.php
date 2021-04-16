@@ -30,25 +30,7 @@ class Admin extends User{
         
     } #Completed function, returns a admin object when the admin is found in the database given the admin's id number
 
-    public static function getAllIssues(): array{
-        $issues = Issue::getAllIssues();
-        return $issues;
-    }
-
-    public static function getAllIssuesbyFilter($filter):array{
-        $issues = Issue::getAllIssuesbyFilter($filter);
-        return $issues;
-    }
-
-    public static function searchForIssue($key): array{
-        $issue = Issue::searchForIssue($key);
-        return $issue;
-    }
-
-    public static function updateIssue($data): bool{
-        return Issue::updateIssue($data);
-    }
-
+    
     public static function addResident($data): bool{
         $resident = new Resident($data['rid'],$data['fname'],$data['lname'],$data['cluster'],
                                     $data['household'],$data['rnum']);
@@ -60,4 +42,5 @@ class Admin extends User{
                                 $data['email'],$data['affiliation'],$data['skills_desc']);
         return MtnPersonnel::add($mtn,$data['password']);
     }
+
 }
