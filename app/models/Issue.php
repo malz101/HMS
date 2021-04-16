@@ -14,6 +14,7 @@ class Issue extends Model{
     private $last_updated_by;
     private $updated_on;
     private $feedbacks;
+    private $slots;
 
     public function __construct(){
         $NoOfArguments = func_num_args(); //return no of arguments passed in function
@@ -38,7 +39,7 @@ class Issue extends Model{
 
     private function construct2($rid,$subject,$classification,$description){
         parent::__construct();
-        $date = date("Y-m-d"); #in format "Y-m-d ", ie: "2019-11-24 "
+        $date = date("Y-m-d"); #in format "Y-m-d ", ie: "2019-11-24"
         $this->date = $date;
         $this->HMemberIDnum = $rid;
         $this->subject = $subject;
@@ -92,6 +93,14 @@ class Issue extends Model{
 
     public function setFeedbacks($feedbacks){
         $this->feedbacks = $feedbacks;
+    }
+
+    public function getSlots(){
+        return $this->slots;
+    }
+
+    public function setSlots($slots){
+        $this->slots = $slots;
     }
 
 

@@ -93,7 +93,7 @@ DROP TABLE IF EXISTS `login`;
 CREATE TABLE `login` (
   `id` varchar(10) NOT NULL,
   `password` varchar(64) NOT NULL DEFAULT 'password',
-  `type` enum('admin','mtnpersonnel','resident'),
+  `type` enum('admin','mtn','resident'),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 

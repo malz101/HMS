@@ -29,10 +29,8 @@
 
             <?php if($_SESSION['user_type']=='mtnpersonnel'):?>
                 <div class="update-issue-form">
-                    <label for="schedule-btn">Schedule Repair</label>
-                    <button id='schedule-btn' class="btn-filled blue w-button">Schedule</button>
+                    <?php require_once 'mtnpersonnel/schedule-repair.php'?>
                 </div>
-                
             <?php endif ?>
             
         </div>

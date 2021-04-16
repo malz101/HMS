@@ -9,8 +9,8 @@ require APPROOT . '/views/includes/navbar.php';
         <h3 class="white funcard">View All Repairs</h3>
       </a>
 
-      <a href="#" class="function-card w-inline-block">
-        <h3 class="white funcard">Bookings</h3>
+      <a href="<?php echo URLROOT; ?>/mtn/viewSchedule" class="function-card w-inline-block">
+        <h3 class="white funcard">View Schedule</h3>
       </a>
     </div>
   </div>

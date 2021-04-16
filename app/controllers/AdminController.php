@@ -123,7 +123,7 @@ class AdminController extends UserController {
     public function updateIssueStatus($iid){
         $data=[];
         $data = array(
-            'title' => 'Log Issue Page',
+            'title' => 'View Issue Page',
             'iid' => $iid[0],
             'issue' => array(),
             'feedbacks' => array(),

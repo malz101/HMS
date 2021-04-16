@@ -1,92 +1,29 @@
-<div class="calender-container">
+<form action="<?php echo URLROOT; ?>/mtn/scheduleRepair/<?php echo $issue->getID()?>" method="POST" id="schedule-repair-form" name="schedule-repair-form" data-name="Schedule Repair Form" class="w-clearfix">
 
-  <div class="calendar-base">
+  <label for="schedule-slot">Schedule Repair</label>
+  <select id="schedule-slot" name="slot" required="" data-name="Slot" class="w-select" onChange="this.form.submit()">
+      <option>--Select Date and Time--</option>
+      <?php $today = date("Y-m-d"); #in format "Y-m-d ", ie: "2019-11-24"
+            $hour = 8;#used to keep track of the time of day to schedule repair, 24 hour format
+            $enddate = date("Y-m-d",strtotime($today.''.' + 15 days'));
+      ?>
+      <?php for ($i=0; $i < 16; $i++):?>
+        <?php for ($hcount=0; $hcount < 9; $hcount++): ?>
+          <?php $slot = (date("Y-m-d",strtotime($today.''.' + '.$i.' days'))).' ';
+              if ($hour+$hcount<10){
+                $slot = $slot.'0'.($hour+$hcount.':00:00');
+              }else{
+                $slot = $slot.($hour+$hcount.':00:00');
+              }
+          ?>
+          <option value="<?php echo $slot?>"><?php echo $slot ?></option>
+        <?php endfor?>
+      <?php endfor?>
+  </select>
+  <div class="schedule-repair-message-area">
+      <span class="validFeedback"><?php echo $data['updateMessage']; ?></span>
+      <span class="invalidFeedback"><?php echo $data['updateIssueError']; ?></span>
+  </div>  
+                 
+</form>
 
-    <div class="year">2017</div>
-    <!-- year -->
-
-    <div class="triangle-left"></div>
-    <!--triangle -->
-    <div class="triangle-right"></div>
-    <!--  triangle -->
-
-    <div class="months">
-      <span class="month-hover">Jan</span>
-      <span class="month-hover">Feb</span> 
-      <span class="month-hover">Mar</span> 
-      <strong class="month-color">Apr</strong>
-      <span class="month-hover">May</span>
-      <span class="month-hover">Jun</span>
-      <span class="month-hover">July</span> 
-      <span class="month-hover">Aug</span> 
-      <span class="month-hover">Sep</span> 
-      <span class="month-hover">Oct</span> 
-      <span class="month-hover">Nov</span> 
-      <span class="month-hover">Dec</span>
-    </div><!-- months -->
-    <hr class="month-line" />
-
-    <div class="days">SUN MON TUE WED THU FRI SAT</div>
-    <!-- days -->
-
-    <div class="num-dates">
-
-      <div class="first-week"><span class="grey">26 27 28 29 30 31</span> 01</div>
-      <!-- first week -->
-      <div class="second-week">02 03 04 05 06 07 08</div>
-      <!-- week -->
-      <div class="third-week"> 09 10 11 12 13 14 15</div>
-      <!-- week -->
-      <div class="fourth-week"> 16 17 18 19 20 21 22</div>
-      <!-- week -->
-      <div class="fifth-week"> 23 24 25 26 <strong class="white">27</strong> 28 29</div>
-      <!-- week -->
-      <div class="sixth-week"> 30 <span class="grey">01 02 03 04 05 06</span></div>
-      <!-- week -->
-    </div>
-    <!-- num-dates -->
-    <div class="event-indicator"></div>
-    <!-- event-indicator -->
-    <div class="active-day"></div>
-    <!-- active-day -->
-    <div class="event-indicator two"></div>
-    <!-- event-indicator -->
-
-  </div>
-  <!-- calendar-base -->
-  <div class="calendar-left">
-
-    <div class="hamburger">
-      <div class="burger-line"></div>
-      <!-- burger-line -->
-      <div class="burger-line"></div>
-      <!-- burger-line -->
-      <div class="burger-line"></div>
-      <!-- burger-line -->
-    </div>
-    <!-- hamburger -->
-
-
-    <div class="num-date">27</div>
-    <!--num-date -->
-    <div class="day">THURSDAY</div>
-    <!--day -->
-    <div class="current-events">Current Events
-      <br/>
-      <ul>
-        <li>Day 09 Daily CSS Image</li>
-      </ul>
-      <span class="posts">See post events</span></div>
-    <!--current-events -->
-
-    <div class="create-event">Create an Event</div>
-    <!-- create-event -->
-    <hr class="event-line" />
-    <div class="add-event"><span class="add">+</span></div>
-    <!-- add-event -->
-
-  </div>
-  <!-- calendar-left -->
-
-</div>
-<!-- container -->

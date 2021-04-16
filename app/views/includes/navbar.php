@@ -3,7 +3,7 @@
     <nav role="navigation" class="w-nav-menu">
       <a href="#" class="navbtn w-button">Notifications</a>
     </nav>
-    <a href="<?php echo URLROOT; ?>/<?php echo $_SESSION['user_type'] ?>/home" class="nav-link w-nav-link">Home</a> 
+    <a href="<?php echo URLROOT; ?>/<?php if($_SESSION['user_type']=='mtnpersonnel'){echo 'mtn';}else{echo $_SESSION['user_type'];} ?>/home" class="nav-link w-nav-link">Home</a> 
     <a href="<?php echo URLROOT; ?>/<?php echo $_SESSION['user_type'] ?>/logout" class="nav-link w-nav-link">Sign Out</a>
     
     <div class="w-nav-button">
