@@ -14,15 +14,25 @@
                 <p id='status'><?php echo $issue->getStatus()?></p>
             </div>
 
-            <div id="update-issue-forms">
+            <?php if($_SESSION['user_type']=='admin'):?>
+                <div id="update-issue-forms">
+                    <div class="update-issue-form">
+                        <?php require_once 'admin/update-issue-forms.php';?>
+                    </div>
+                    
+                    <div class="update-issue-form">
+                        <label for="assign maintenance">Assign Maintenace Personnel</label>
+                        <button id="assign-maintenance-btn" class="btn-filled purple w-button">Assign</button>
+                    </div>
+                </div>
+            <?php endif ?>
+
+            <?php if($_SESSION['user_type']=='mtnpersonnel'):?>
                 <div class="update-issue-form">
-                    <?php if($_SESSION['user_type']=='admin'){require_once 'admin/update-issue-forms.php';}?>
+                    <label for="schedule-btn">Schedule Repair</label>
+                    <button id='schedule-btn' class="btn-filled blue w-button">Schedule</button>
                 </div>
                 
-                <div class="update-issue-form">
-                    <label for="assign maintenance">Assign Maintenace Personnel</label>
-                    <button id="assign-maintenance-btn" class="btn-filled purple w-button">Assign</button>
-                </div>
-            </div>
+            <?php endif ?>
             
         </div>

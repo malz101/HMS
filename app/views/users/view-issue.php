@@ -37,6 +37,8 @@ $feedbacks = $issue->getFeedbacks();
     </div>
 
     <?php if($_SESSION['user_type']=='admin'){require_once 'admin/assign-mtn-personnel.php';}?>
+
+    <?php if($_SESSION['user_type']=='mtnpersonnel'){require_once 'mtnpersonnel/schedule-repair.php';}?>
 </div>
 <?php
 require APPROOT . '/views/includes/footer.php';

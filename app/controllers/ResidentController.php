@@ -54,7 +54,9 @@ class ResidentController extends UserController {
 
             //Check if all errors are empty
             if (empty($data['descriptionError'])  && empty($data['subjectError'])) {
-                $result = $this->residentModel::addIssue($data);
+                $imodel = $this->model('Issue');
+                $issue = new $imodel($data['rid'],$data['subject'], $data['classification'], $data['description']);
+                $result = $imodel::add($issue);
 
                 if(!empty($result)){
                     $data['message'] = "Issue is successfully logged.";
@@ -103,8 +105,14 @@ class ResidentController extends UserController {
 
             //Check if all errors are empty
             if (empty($data['commentError'])) {
-                $result = $this->residentModel::addFeedback($data);
-                $issue = $this->userModel::getIssue($data['iid']);
+                $imodel = $this->model('Issue');
+                $fmodel = $this->model('Feedback');
+
+                $feedback = new $fmodel($data['iid'], $data['uid'],$data['comment']);
+                $result = $fmodel::add($feedback);
+
+                $issue = $imodel::getIssue($data['iid']);
+                
                 $data['issue'] = $this->attachAllDetails(array($issue))[0];
                 if($result){
                     $data['feedback-message'] = "Feedback successfully added.";

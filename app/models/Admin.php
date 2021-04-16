@@ -30,17 +30,4 @@ class Admin extends User{
         
     } #Completed function, returns a admin object when the admin is found in the database given the admin's id number
 
-    
-    public static function addResident($data): bool{
-        $resident = new Resident($data['rid'],$data['fname'],$data['lname'],$data['cluster'],
-                                    $data['household'],$data['rnum']);
-        return Resident::add($resident,$data['password']);
-    }
-
-    public static function addMtnPersonnel($data):bool{
-        $mtn = new MtnPersonnel($data['mid'],$data['fname'],$data['lname'],$data['tele'],
-                                $data['email'],$data['affiliation'],$data['skills_desc']);
-        return MtnPersonnel::add($mtn,$data['password']);
-    }
-
 }

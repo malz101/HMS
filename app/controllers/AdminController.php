@@ -41,7 +41,11 @@ class AdminController extends UserController {
 
             //Validate id
             if (!empty($data['rid']) && !empty($data['password'])) {
-                $result = $this->adminModel::addResident($data);
+                $rmodel = $this->model('Resident');
+                $resident = new $rmodel($data['rid'],$data['fname'],$data['lname'],$data['cluster'],
+                                        $data['household'],$data['rnum']);
+
+                $result = $rmodel::add($resident,$data['password']);
 
                 if($result){
                     $data['message'] = "Resident successfully added.";
@@ -94,7 +98,11 @@ class AdminController extends UserController {
 
             //Validate id
             if (!empty($data['mid']) && !empty($data['password'])) {
-                $result = $this->adminModel::addMtnPersonnel($data);
+                $mmodel = $this->model('MtnPersonnel');
+                $mtn = new $mmodel($data['mid'],$data['fname'],$data['lname'],$data['tele'],
+                                    $data['email'],$data['affiliation'],$data['skills_desc']);
+                                    
+                $result = $this->mmodel::add($mtn,$data['password']);
 
                 if($result){
                     $data['message'] = "Maintennance successfully added.";

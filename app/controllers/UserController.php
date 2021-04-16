@@ -17,7 +17,7 @@ class UserController extends Controller {
 
         //Check for post
         if($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // var_dump($_SESSION);
+            //var_dump($_SESSION);
             //Sanitize post data
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
@@ -38,8 +38,8 @@ class UserController extends Controller {
             //Check if all errors are empty
             if (empty($data['idError']) && empty($data['passwordError'])) {
                 $userAuth = $this->userModel::getUserAuth($data['id']);
-
-                // var_dump($loggedInUser);
+                
+                //var_dump($userAuth);
                 if (!empty($userAuth)) {
                     $hashedPassword = $userAuth->getPassword();
                     if (hash('sha256',$data['password'])==$hashedPassword) {
@@ -66,14 +66,13 @@ class UserController extends Controller {
     private function redirectUser($type){
         switch ($type) {
             case "admin":
-            var_dump($type);
             header ( "Location: ".URLROOT."/admin/home");
             break;
             case "resident":
             header ( "Location: ".URLROOT."/resident/confirmation");
             break;
             case "mtnpersonnel":
-            header ( "Location: ".URLROOT."/mtnpersonnel/home");
+            header ( "Location: ".URLROOT."/mtn/home");
             break;
         }//END switch
     }
@@ -102,17 +101,17 @@ class UserController extends Controller {
 
             $data['status'] = trim($_POST['status']);
             $data['classification'] = trim($_POST['classification']);
-
+            $model = $this->model('Issue'); 
             switch($_SESSION['user_type']){
+                
                 case 'admin':
-                    $model = $this->model('Issue'); 
                     $data['issues'] = $this->attachMtnPersonnel($model::getAllIssuesbyFilter($data));
                     break;
                 case 'resident':
-                    $model = $this->model('Issue'); 
-                    $data['issues'] = $data['issues'] = $this->attachMtnPersonnel($model::getIssueByResIDFilter($data, $_SESSION['user_id']));
+                    $data['issues'] = $this->attachMtnPersonnel($model::getIssueByResIDFilter($data, $_SESSION['user_id']));
                     break;
                 case 'mtnpersonnel':
+                    $data['issues'] =  $this->attachMtnPersonnel($model::getIssueByMtnIDFilter($data, $_SESSION['user_id']));
                     break;
             }
 
@@ -120,16 +119,18 @@ class UserController extends Controller {
             $this->helperViewAllIssues($data);
         }//END Check for POST
         else{
+            $imodel = $this->model('Issue'); 
             switch($_SESSION['user_type']){
                 case 'admin':
-                    $imodel = $this->model('Issue');  
+                     
                     $data['issues'] = $this->attachMtnPersonnel($imodel::getAllIssues());
                     break;
                 case 'resident':
-                    $imodel = $this->model('Issue'); 
+                    
                     $data['issues'] = $this->attachMtnPersonnel($imodel::getIssuesResByID($_SESSION['user_id']));
                     break;
                 case 'mtnpersonnel':
+                    $data['issues'] = $this->attachMtnPersonnel($imodel::getIssuesMtnByID($_SESSION['user_id']));
                     break;
             }
 
@@ -229,37 +230,26 @@ class UserController extends Controller {
                 $data['key'] = "%";
             }
 
-            switch($_SESSION['user_type']){
+            $model = $this->model('Issue'); 
+            switch($_SESSION['user_type']){ 
                 case 'admin':
-                    $model = $this->model('Issue');  
                     $data['issues'] = $this->attachMtnPersonnel($model::searchForIssue($data['key']));
                     break;
                 case 'resident':
-                    $model = $this->model('Issue');  
                     $data['issues'] = $this->attachMtnPersonnel($model::searchForIssuebyResID($data['key'], $_SESSION['user_id']));
                     break;
                 case 'mtnpersonnel':
+                    $data['issues'] = $this->attachMtnPersonnel($model::searchForIssuebyMtnID($data['key'], $_SESSION['user_id']));
                     break;
             }
             
 
             $this->helperViewAllIssues($data);
         }//END Check for POST
-        // else{
-        //     switch($_SESSION['user_type']){
-        //         case 'admin': 
-        //             $data['issues'] = $this->issueModel->viewAllIssues();
-        //             break;
-        //         case 'resident':
-        //             $data['issues'] = $this->issueModel->viewByResID($_SESSION['user_id']);
-        //             break;
-        //         case 'mtnpersonnel':
-        //             break;
-        //     }
-            
-        //     $this->helperViewAllIssues($data);
-        // }
-    }
+        else{
+            header ( "Location: ".URLROOT."/user/viewAll");
+        }
+    }//END SEARCH FOR ISSUE
 
 
     protected function getIssueAndMtnPersonnel($iid){

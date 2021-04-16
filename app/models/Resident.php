@@ -112,16 +112,4 @@ class Resident extends User{
         return $resident;
     } #Completed function, returns a resident object when the resident is found in the database given the resident's id number or FALSE if the resident is not found
 
-
-    public static function addIssue($data): bool{
-        $issue = new Issue($data['rid'],$data['subject'], $data['classification'], $data['description']);
-        return Issue::add($issue);
-    } 
-
-
-    public static function addFeedback($data): bool{
-        $feedback = new Feedback($data['iid'], $data['uid'],$data['comment']);
-        return Feedback::add($feedback);
-    }
-
 } #completed class

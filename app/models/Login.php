@@ -9,7 +9,7 @@ class Login extends Model{
         $arguments = func_get_args();
 
         switch ($NoOfArguments) {
-            case 1:
+            case 0:
                 $this->construct1();
                 break;
             case 3:

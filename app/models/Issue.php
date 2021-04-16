@@ -124,6 +124,14 @@ class Issue extends Model{
     } #returns an associative list of issues reported by a hall member using the hall member's ID number 
 
 
+    public static function getIssuesMtnByID($id_num): array{
+        $conn = new self::$db();
+        $conn->query('SELECT * FROM issues WHERE assigned_to = :assigned_to ORDER BY date DESC;');
+        $conn->bind(':assigned_to', $id_num);
+        $issues = $conn->resultSet(__CLASS__);
+        return $issues;
+    } #returns an associative list of issues assinged to a mtn personnel using  ID number 
+
     public static function getIssueByResIDFilter($filter, $HMemberIDnum): array{
         $conn = new self::$db();
         $conn->query('SELECT * FROM issues 
@@ -136,6 +144,21 @@ class Issue extends Model{
         $issues = $conn->resultSet(__CLASS__);
         return $issues;
     } #returns an associative list of issues reported by a hall member using the hall member's ID number 
+
+
+    public static function getIssueByMtnIDFilter($filter, $id_num): array{
+        $conn = new self::$db();
+        $conn->query('SELECT * FROM issues 
+                            WHERE assigned_to = :assigned_to and classification like :classification and status like :status
+                            ORDER BY date DESC;');
+        
+        $conn->bind(':assigned_to', $id_num);
+        $conn->bind(':classification', $filter['classification']);
+        $conn->bind(':status', $filter['status']);
+        $issues = $conn->resultSet(__CLASS__);
+        return $issues;
+    } #returns an associative list of issues reported by a hall member using the hall member's ID number 
+
     
     public static function updateIssue($data){
         $conn = new self::$db();
@@ -221,6 +244,19 @@ class Issue extends Model{
         $issues = $conn->resultSet(__CLASS__);
         return $issues;
     }
+    
+    
+    public static function searchForIssuebyMtnID($key, $id_num): array{
+        $conn = new self::$db();
+        $conn->query('SELECT * FROM issues WHERE assigned_to = :assigned_to and issueID like :key
+                        ORDER BY date DESC;');
+        
+        $conn->bind(':assigned_to', $id_num);
+        $conn->bind(':key', $key);
+        $issues = $conn->resultSet(__CLASS__);
+        return $issues;
+    }
+    
 
 
     public static function assignPersonnel($iid,$mid): bool{
