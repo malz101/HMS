@@ -159,3 +159,20 @@ INSERT INTO `mtnpersonnel` VALUES ('720111112','Peter','Phillips','8768763456','
 UNLOCK TABLES;
 
 -- Dump completed on 2019-11-27 20:42:13
+
+
+DROP TABLE IF EXISTS `repair_schedule`;
+CREATE TABLE IF NOT EXISTS `repair_schedule` (
+  `issueID` int(11) NOT NULL,
+  `mtnID` varchar(10) NOT NULL,
+  `date` datetime NOT NULL,
+  PRIMARY KEY (`date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `repair_schedule`
+--
+
+INSERT INTO `repair_schedule` (`issueID`, `mtnID`, `date`) VALUES
+(4, '720111114', '2021-04-16 14:00:00'),
+(4, '720111114', '2021-04-16 16:00:00');
