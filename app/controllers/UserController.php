@@ -167,10 +167,10 @@ class UserController extends Controller {
         $issue = $imodel::getIssue($data['iid']);
         $data['issue']  = $this->attachAllDetails(array($issue))[0];
 
-        if($_SESSION['user_type']=='admin'){
+        //if($_SESSION['user_type']=='admin'){
             $mmodel = $this->model('MtnPersonnel');
             $data['mtnpersonnels'] = $mmodel::getAll();
-        }
+        //}
         
         // var_dump($data['issue']);
         if(empty($data['issue']) != false){

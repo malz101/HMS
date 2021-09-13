@@ -71,9 +71,14 @@ class MtnPersonnel extends User{
         $conn->bind(':affiliation', $mtnpersonnel->getAffliation());
         $conn->bind(':skills_desc', $mtnpersonnel->getSkillsDesc());
 
-        if ($conn->execute()==false) {
+        try{
+            if ($conn->execute()==false) {
+                return false;
+            }
+        }catch(Exception $e){
             return false;
         }
+
         
         //query to update login info table
         $login = new Login($mtnpersonnel->getID(),$password,'mtnpersonnel');

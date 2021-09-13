@@ -52,7 +52,7 @@ class AdminController extends UserController {
                     $this->view('users/admin/add-resident',$data);
                 }
                 else{
-                    $data['addUserError'] = "An error occurred while creating user.";
+                    $data['addUserError'] = "Resident already exists with that id number.";
                 
                     $this->view('users/admin/add-resident',$data);
                 }
@@ -102,14 +102,14 @@ class AdminController extends UserController {
                 $mtn = new $mmodel($data['mid'],$data['fname'],$data['lname'],$data['tele'],
                                     $data['email'],$data['affiliation'],$data['skills_desc']);
                                     
-                $result = $this->mmodel::add($mtn,$data['password']);
+                $result = $mmodel::add($mtn,$data['password']);
 
                 if($result){
                     $data['message'] = "Maintennance successfully added.";
                     $this->view('users/admin/add-mtn-personnel',$data);
                 }
                 else{
-                    $data['addUserError'] = "An error occurred while creating user.";
+                    $data['addUserError'] = "Maintennace Personnel already exists with that ID number.";
                 
                     $this->view('users/admin/add-mtn-personnel',$data);
                 }

@@ -76,8 +76,12 @@ class Resident extends User{
         $conn->bind(':household', $resident->getHousehold());
         $conn->bind(':room_num', $resident->getRoomNum());
 
-        if ($conn->execute()==false) {
-            return false;
+        try{
+            if ($conn->execute()==false) {
+                return false;
+            }
+        }catch(Exception $e){
+            return False;
         }
 
         //query to update login info table
